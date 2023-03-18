@@ -16,6 +16,7 @@ import {
     stopDigitalModelApi
 } from "@app/api/digitalModels/digitalModels.api";
 import {getIpComponent, getStatusComponent} from "@app/utils/utilsDigitalModels";
+import {NewDigitalModelButton} from "@app/components/DigitalModels/List/NewDigitalModelButton";
 
 const initialPagination: Pagination = {
     defaultCurrent: 1,
@@ -196,7 +197,7 @@ export const DigitalModelsTable: React.FC = () => {
                 <Col span={24}>
                     <Row justify={"end"}>
                         <Col span={3}>
-                            <Button block onClick={newDigitalModel}>{t("dm.newDigitalModel")}</Button>
+                            <NewDigitalModelButton/>
                         </Col>
                     </Row>
                 </Col>
