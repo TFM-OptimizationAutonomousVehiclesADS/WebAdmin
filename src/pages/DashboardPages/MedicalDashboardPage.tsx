@@ -2,7 +2,6 @@ import React from 'react';
 import { Col, Row } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
-import { MapCard } from '@app/components/medical-dashboard/mapCard/MapCard';
 import { ScreeningsCard } from '@app/components/medical-dashboard/screeningsCard/ScreeningsCard/ScreeningsCard';
 import { ActivityCard } from '@app/components/medical-dashboard/activityCard/ActivityCard';
 import { TreatmentCard } from '@app/components/medical-dashboard/treatmentCard/TreatmentCard';
@@ -33,7 +32,6 @@ const MedicalDashboardPage: React.FC = () => {
           </Col>
 
           <Col id="map" span={24}>
-            <MapCard />
           </Col>
 
           <Col id="latest-screenings" span={24}>
@@ -85,7 +83,6 @@ const MedicalDashboardPage: React.FC = () => {
 
       {isTablet && (
         <Col id="map" md={24} order={4}>
-          <MapCard />
         </Col>
       )}
 

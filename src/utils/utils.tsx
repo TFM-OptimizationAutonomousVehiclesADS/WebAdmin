@@ -9,6 +9,24 @@ import mastercard from '@app/assets/images/card-issuers/mastercard.png';
 import maestro from '@app/assets/images/card-issuers/maestro.png';
 import { CurrencyTypeEnum } from '@app/interfaces/interfaces';
 
+export const getLocaleStringDateTime = (timeString: string) => {
+  try {
+    return new Date(timeString).toLocaleDateString() + " " + new Date(timeString).toLocaleTimeString();
+  } catch (error) {
+    console.log(error);
+  }
+  return "";
+}
+
+export const getLocaleStringDate = (timeString: string) => {
+  try {
+    return new Date(timeString).toLocaleDateString();
+  } catch (error) {
+    console.log(error);
+  }
+  return "";
+}
+
 export const camelize = (string: string): string => {
   return string
     .split(' ')

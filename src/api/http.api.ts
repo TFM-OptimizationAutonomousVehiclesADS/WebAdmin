@@ -7,6 +7,10 @@ export const httpApi = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
+export const httpBackApi = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+});
+
 httpApi.interceptors.request.use((config) => {
   config.headers = { ...config.headers, Authorization: `Bearer ${readToken()}` };
 

@@ -24,9 +24,9 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({ toggleSider, isSider
             <NotificationsDropdown />
           </Col>
 
-          <Col>
-            <HeaderSearch />
-          </Col>
+          {/*<Col>*/}
+          {/*  <HeaderSearch />*/}
+          {/*</Col>*/}
 
           <Col>
             <SettingsDropdown />

@@ -16,21 +16,17 @@ export const DesktopHeader: React.FC<DesktopHeaderProps> = ({ isTwoColumnsLayout
     <S.SearchColumn xl={16} xxl={17}>
       <Row justify="space-between">
         <Col xl={15} xxl={12}>
-          <HeaderSearch />
+          {/*<HeaderSearch />*/}
         </Col>
-        <Col>
-          <S.GHButton />
-        </Col>
+        <Col>{/*<S.GHButton />*/}</Col>
       </Row>
     </S.SearchColumn>
   ) : (
     <>
       <Col lg={10} xxl={8}>
-        <HeaderSearch />
+        {/*<HeaderSearch />*/}
       </Col>
-      <Col>
-        <S.GHButton />
-      </Col>
+      <Col>{/*<S.GHButton />*/}</Col>
     </>
   );
 

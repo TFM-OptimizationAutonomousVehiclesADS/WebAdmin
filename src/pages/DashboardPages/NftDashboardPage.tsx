@@ -6,7 +6,6 @@ import { useResponsive } from '@app/hooks/useResponsive';
 import { TrendingCreators } from '@app/components/nft-dashboard/trending-creators/TrendingCreators';
 import { RecentlyAddedNft } from '@app/components/nft-dashboard/recently-added/RecentlyAddedNft';
 import { TrendingCollections } from '@app/components/nft-dashboard/trending-collections/TrendingCollections';
-import { Balance } from '@app/components/nft-dashboard/Balance/Balance';
 import { TotalEarning } from '@app/components/nft-dashboard/totalEarning/TotalEarning';
 import { ActivityStory } from '@app/components/nft-dashboard/activityStory/ActivityStory';
 import { RecentActivity } from '@app/components/nft-dashboard/recentActivity/RecentActivity';
@@ -40,7 +39,6 @@ const MedicalDashboardPage: React.FC = () => {
 
       <S.RightSideCol xl={8} xxl={7}>
         <div id="balance">
-          <Balance />
         </div>
         <S.Space />
         <div id="total-earning">
