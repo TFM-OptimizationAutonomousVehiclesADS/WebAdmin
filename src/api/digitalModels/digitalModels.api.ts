@@ -4,6 +4,10 @@ export const getAllDigitalModelsApi = (): Promise<any> => {
     return httpBackApi.get('/digital-models/all');
 };
 
+export const getDigitalModelByIdApi = (idDigitalModel: str): Promise<any> => {
+    return httpBackApi.get('/digital-models/info/' + idDigitalModel);
+};
+
 export const startDigitalModelApi = (idDigitalModel: string): Promise<any> => {
     return httpBackApi.post('/digital-models/start/' + idDigitalModel);
 };
@@ -22,4 +26,20 @@ export const newDigitalModelApi = (data): Promise<any> => {
             'Content-Type': 'application/json'
         }
     });
+};
+
+export const getLogsSamplesByIdDigitalModelApi = (idDigitalModel: string): Promise<any> => {
+    return httpBackApi.get('/digital-models/query/' + idDigitalModel, {params: {query: "/all_logs_samples"}});
+};
+
+export const getLogsAnomaliesByIdDigitalModelApi = (idDigitalModel: string): Promise<any> => {
+    return httpBackApi.get('/digital-models/query/' + idDigitalModel, {params: {query: "/all_last_anomalies"}});
+};
+
+export const getLogsRetrainingEvaluationByIdDigitalModelApi = (idDigitalModel: string): Promise<any> => {
+    return httpBackApi.get('/digital-models/query/' + idDigitalModel, {params: {query: "/all_logs_retraining_evaluation"}});
+};
+
+export const getDigitalModelActualModelByIdApi = (idDigitalModel: str): Promise<any> => {
+    return httpBackApi.get('/digital-models/query/' + idDigitalModel, {params: {query: "/actual_evaluation_dict"}});
 };

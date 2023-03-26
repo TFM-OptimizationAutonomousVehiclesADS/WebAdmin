@@ -17,6 +17,7 @@ import { withLoading } from '@app/hocs/withLoading.hoc';
 import NftDashboardPage from '@app/pages/DashboardPages/NftDashboardPage';
 import MedicalDashboardPage from '@app/pages/DashboardPages/MedicalDashboardPage';
 import DigitalModelsListPage from '@app/pages/DigitalModels/DigitalModelsListPage';
+import DigitalModelPage from "@app/pages/DigitalModels/DigitalModelPage";
 
 const ServerErrorPage = React.lazy(() => import('@app/pages/ServerErrorPage'));
 const Error404Page = React.lazy(() => import('@app/pages/Error404Page'));
@@ -60,6 +61,7 @@ export const AppRouter: React.FC = () => {
           <Route index element={<NftDashboard />} />
           <Route path={MEDICAL_DASHBOARD_PATH} element={<MedicalDashboard />} />
           <Route path={"/digital-models"} element={<DigitalModelsList />} />
+          <Route path={"/digital-model/:idDigitalModel"} element={<DigitalModelPage/>} />
           <Route path="server-error" element={<ServerError />} />
           <Route path="404" element={<Error404 />} />
           <Route path="profile" element={<ProfileLayout />}>

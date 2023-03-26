@@ -9,7 +9,7 @@ export const Table = styled(AntdTable)`
     line-height: 1.25rem;
 
     & .anticon {
-      color: var(--primary-color);
+      // color: var(--primary-color);
     }
   }
 

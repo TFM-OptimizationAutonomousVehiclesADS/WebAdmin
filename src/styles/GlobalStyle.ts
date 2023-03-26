@@ -193,5 +193,10 @@ export default createGlobalStyle`
   .ant-menu-inline, .ant-menu-vertical {
     border-right: 0;
   }
+  
+  .ant-image-preview-img {
+    display: initial;
+  }
+  
   // notifications end
 `;

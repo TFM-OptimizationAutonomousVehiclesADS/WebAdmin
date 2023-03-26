@@ -15,8 +15,9 @@ import {
     startDigitalModelApi,
     stopDigitalModelApi
 } from "@app/api/digitalModels/digitalModels.api";
-import {getIpComponent, getStatusComponent} from "@app/utils/utilsDigitalModels";
+import {getIpComponent, getParamDataByName, getStatusComponent} from "@app/utils/utilsDigitalModels";
 import {NewDigitalModelButton} from "@app/components/DigitalModels/List/NewDigitalModelButton";
+import {Link} from "react-router-dom";
 
 const initialPagination: Pagination = {
     defaultCurrent: 1,
@@ -131,12 +132,13 @@ export const DigitalModelsTable: React.FC = () => {
                                 icon={<CaretRightFilled/>}/>
                     </Tooltip>
                 </Col>}
+            {(status == "stopped" || status == "exited") &&
             <Col>
                 <Tooltip title={t("dm.delete")}>
                     <Button onClick={() => deleteDigitalModel(id)} style={{background: "gray"}} shape="circle"
                             icon={<DeleteFilled/>}/>
                 </Tooltip>
-            </Col>
+            </Col>}
         </Row>
     }
 
@@ -150,7 +152,7 @@ export const DigitalModelsTable: React.FC = () => {
         {
             title: t('dm.name'),
             dataIndex: 'name',
-            render: (text: string) => <span>{text}</span>,
+            render: (text: string, record) => <span><Link to={"/digital-model/" + record?.id}>{text}</Link></span>,
             width: "30%"
         },
         {
@@ -163,7 +165,13 @@ export const DigitalModelsTable: React.FC = () => {
             title: t('dm.ip'),
             dataIndex: 'ip',
             render: (text: string) => <span>{getIpComponent(text, t)}</span>,
-            width: "20%"
+            width: "10%"
+        },
+        {
+            title: t('dm.username'),
+            dataIndex: 'params',
+            render: (params: string) => <span>{getParamDataByName("DIGITAL_MODEL_USERNAME_OWNER", params)}</span>,
+            width: "10%"
         },
         {
             title: t('dm.createdAt'),

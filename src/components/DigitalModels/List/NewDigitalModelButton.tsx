@@ -69,6 +69,7 @@ export const NewDigitalModelButton: React.FC = () => {
             .catch((error) => {
                 notificationController.error({message: t("dm.errorData")});
             })
+        setIsModalOpen(false);
     }
 
     const steps = [

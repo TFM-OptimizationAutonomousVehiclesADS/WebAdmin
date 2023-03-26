@@ -12,6 +12,14 @@ export const getIpComponent = (ip: string, t: any) => {
     return <Tag color={"#868484"}>{t("dm.noIp")}</Tag>
 }
 
+export const getPredictionTag = (prediction: number, threshold: number) => {
+    if (prediction >= threshold) {
+        return <Tag color={"#ab0404"}>{prediction}</Tag>
+    } else {
+        return <Tag color={"#419b5d"}>{prediction}</Tag>
+    }
+}
+
 export const getStatusColor = (status: string) => {
     let color = "#868484";
     if (status == "stop" || status == "stopped" || status == "exited") {
@@ -22,4 +30,29 @@ export const getStatusColor = (status: string) => {
         color = "#1a9635"
     }
     return color;
+}
+
+export const getParamDataByName = (paramName: string, params: string[]) => {
+    if (params) {
+        for (let i = 0; i < params.length; i++) {
+            if (params[i].includes(paramName + "=")) {
+                const item = params[i];
+                const words = item.split("=");
+                if (words.length > 1) {
+                    const value = words[1];
+                    return value;
+                }
+            }
+        }
+    }
+    return null;
+}
+
+export const getCameraNameByCameraValue = (cameraValue: string, t: Record<string, unknown>) => {
+    console.log(cameraValue)
+    if (cameraValue == "CAM_FRONT") {
+        return t("dm.frontCamera");
+    } else {
+        return t("dm.backCamera");
+    }
 }
