@@ -1,4 +1,7 @@
 {
+  "rs": {
+    "real-system": "Sistema real"
+  },
   "dm": {
     "info": "Info",
     "predictionLogs": "Predicciones",
@@ -184,6 +187,10 @@
     "unchecked": "Unchecked"
   },
   "common": {
+    "alerts-dashboard": "Panel Alertas",
+    "anomalies-dashboard": "Panel Anomalías",
+    "retraining-dashboard": "Panel Entrenamientos",
+    "username": "Usuario",
     "address": "Address",
     "advancedForms": "Advanced Forms",
     "age": "Age",

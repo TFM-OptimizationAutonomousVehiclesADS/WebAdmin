@@ -1,5 +1,5 @@
 import React from 'react';
-import {DashboardOutlined, DeploymentUnitOutlined, ClusterOutlined} from '@ant-design/icons';
+import {DashboardOutlined, DeploymentUnitOutlined, ClusterOutlined, AlertOutlined, BugOutlined, FundProjectionScreenOutlined} from '@ant-design/icons';
 import {ReactComponent as NftIcon} from '@app/assets/icons/nft-icon.svg';
 
 export interface SidebarNavigationItem {
@@ -12,16 +12,22 @@ export interface SidebarNavigationItem {
 
 export const sidebarNavigation: SidebarNavigationItem[] = [
     {
-        title: 'common.nft-dashboard',
-        key: 'nft-dashboard',
+        title: 'common.alerts-dashboard',
+        key: 'alerts-dashboard',
         url: '/',
-        icon: <NftIcon/>,
+        icon: <AlertOutlined/>,
     },
     {
-        title: 'common.medical-dashboard',
-        key: 'medical-dashboard',
-        url: '/medical-dashboard',
-        icon: <DashboardOutlined/>,
+        title: 'common.anomalies-dashboard',
+        key: 'anomalies-dashboard',
+        url: '/anomalies-dashboard',
+        icon: <BugOutlined />,
+    },
+    {
+        title: 'common.retraining-dashboard',
+        key: 'retraining-dashboard',
+        url: '/retraining-dashboard',
+        icon: <FundProjectionScreenOutlined />,
     },
     {
         title: 'rs.real-system',

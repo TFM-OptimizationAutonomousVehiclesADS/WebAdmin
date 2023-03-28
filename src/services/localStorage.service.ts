@@ -38,14 +38,13 @@ export const readToken = (): string => {
   return localStorage.getItem('accessToken') || 'bearerToken';
 };
 
-export const persistUser = (user: UserModel): void => {
-  localStorage.setItem('user', JSON.stringify(user));
+export const persistUser = (user: string): void => {
+  localStorage.setItem('user', user);
 };
 
-export const readUser = (): UserModel | null => {
+export const readUser = (): string | null => {
   const userStr = localStorage.getItem('user');
-
-  return userStr ? JSON.parse(userStr) : testUser;
+  return userStr ? userStr : null;
 };
 
 export const deleteToken = (): void => localStorage.removeItem('accessToken');

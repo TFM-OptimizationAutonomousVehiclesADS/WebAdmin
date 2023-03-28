@@ -20,6 +20,16 @@ export const getPredictionTag = (prediction: number, threshold: number) => {
     }
 }
 
+export const getMetricTag = (score: number) => {
+    if (score < 0.5) {
+        return <Tag color={"#ab0404"}>{score?.toFixed(4)}</Tag>
+    } else if (score < 0.8) {
+        return <Tag color={"#b08719"}>{score?.toFixed(4)}</Tag>
+    } else {
+        return <Tag color={"#419b5d"}>{score?.toFixed(4)}</Tag>
+    }
+}
+
 export const getStatusColor = (status: string) => {
     let color = "#868484";
     if (status == "stop" || status == "stopped" || status == "exited") {

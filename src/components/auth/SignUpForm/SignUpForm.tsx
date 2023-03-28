@@ -12,18 +12,15 @@ import * as Auth from '@app/components/layouts/AuthLayout/AuthLayout.styles';
 import * as S from './SignUpForm.styles';
 
 interface SignUpFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+  username: string;
+  password1: string;
+  password2: string;
 }
 
 const initValues = {
-  firstName: 'Chris',
-  lastName: 'Johnson',
-  email: 'chris.johnson@altence.com',
-  password: 'test-pass',
-  confirmPassword: 'test-pass',
+  username: '',
+  password1: '',
+  password2: '',
   termOfUse: true,
 };
 
@@ -56,48 +53,28 @@ export const SignUpForm: React.FC = () => {
       <BaseForm layout="vertical" onFinish={handleSubmit} requiredMark="optional" initialValues={initValues}>
         <S.Title>{t('common.signUp')}</S.Title>
         <Auth.FormItem
-          name="firstName"
-          label={t('common.firstName')}
+          name="username"
+          label={t('common.username')}
           rules={[{ required: true, message: t('common.requiredField') }]}
         >
-          <Auth.FormInput placeholder={t('common.firstName')} />
-        </Auth.FormItem>
-        <Auth.FormItem
-          name="lastName"
-          label={t('common.lastName')}
-          rules={[{ required: true, message: t('common.requiredField') }]}
-        >
-          <Auth.FormInput placeholder={t('common.lastName')} />
-        </Auth.FormItem>
-        <Auth.FormItem
-          name="email"
-          label={t('common.email')}
-          rules={[
-            { required: true, message: t('common.requiredField') },
-            {
-              type: 'email',
-              message: t('common.notValidEmail'),
-            },
-          ]}
-        >
-          <Auth.FormInput placeholder={t('common.email')} />
+          <Auth.FormInput placeholder={t('common.username')} />
         </Auth.FormItem>
         <Auth.FormItem
           label={t('common.password')}
-          name="password"
-          rules={[{ required: true, message: t('common.requiredField') }]}
+          name="password1"
+          rules={[{ required: true, message: t('common.password') }]}
         >
           <Auth.FormInputPassword placeholder={t('common.password')} />
         </Auth.FormItem>
         <Auth.FormItem
           label={t('common.confirmPassword')}
-          name="confirmPassword"
+          name="password2"
           dependencies={['password']}
           rules={[
             { required: true, message: t('common.requiredField') },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
+                if (!value || getFieldValue('password1') === value) {
                   return Promise.resolve();
                 }
                 return Promise.reject(new Error(t('common.confirmPasswordError')));
@@ -107,42 +84,10 @@ export const SignUpForm: React.FC = () => {
         >
           <Auth.FormInputPassword placeholder={t('common.confirmPassword')} />
         </Auth.FormItem>
-        <Auth.ActionsWrapper>
-          <BaseForm.Item name="termOfUse" valuePropName="checked" noStyle>
-            <Auth.FormCheckbox>
-              <Auth.Text>
-                {t('signup.agree')}{' '}
-                <Link to="/" target={'_blank'}>
-                  <Auth.LinkText>{t('signup.termOfUse')}</Auth.LinkText>
-                </Link>{' '}
-                and{' '}
-                <Link to="/" target={'_blank'}>
-                  <Auth.LinkText>{t('signup.privacyOPolicy')}</Auth.LinkText>
-                </Link>
-              </Auth.Text>
-            </Auth.FormCheckbox>
-          </BaseForm.Item>
-        </Auth.ActionsWrapper>
         <BaseForm.Item noStyle>
           <Auth.SubmitButton type="primary" htmlType="submit" loading={isLoading}>
             {t('common.signUp')}
           </Auth.SubmitButton>
-        </BaseForm.Item>
-        <BaseForm.Item noStyle>
-          <Auth.SocialButton type="default" htmlType="submit">
-            <Auth.SocialIconWrapper>
-              <GoogleIcon />
-            </Auth.SocialIconWrapper>
-            {t('signup.googleLink')}
-          </Auth.SocialButton>
-        </BaseForm.Item>
-        <BaseForm.Item noStyle>
-          <Auth.SocialButton type="default" htmlType="submit">
-            <Auth.SocialIconWrapper>
-              <FacebookIcon />
-            </Auth.SocialIconWrapper>
-            {t('signup.facebookLink')}
-          </Auth.SocialButton>
         </BaseForm.Item>
         <Auth.FooterWrapper>
           <Auth.Text>

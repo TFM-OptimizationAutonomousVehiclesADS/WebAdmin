@@ -54,6 +54,7 @@ export const CollapseButton = styled(Button)<{ $isCollapsed: boolean }>`
 `;
 
 export const SiderContent = styled.div`
+  margin-top: 2vh;
   overflow-y: auto;
   overflow-x: hidden;
   max-height: calc(100vh - ${LAYOUT.mobile.headerHeight});
@@ -76,6 +77,7 @@ export const SiderLogoDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 1vh;
 
   @media only screen and ${media.md} {
     height: ${LAYOUT.desktop.headerHeight};

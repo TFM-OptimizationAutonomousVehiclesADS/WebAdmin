@@ -18,6 +18,9 @@ import NftDashboardPage from '@app/pages/DashboardPages/NftDashboardPage';
 import MedicalDashboardPage from '@app/pages/DashboardPages/MedicalDashboardPage';
 import DigitalModelsListPage from '@app/pages/DigitalModels/DigitalModelsListPage';
 import DigitalModelPage from "@app/pages/DigitalModels/DigitalModelPage";
+import AlertsDashboardPage from "@app/pages/DashboardPages/AlertsDashboardPage";
+import AnomaliesDashboardPage from "@app/pages/DashboardPages/AnomaliesDashboardPage";
+import RetrainingDashboardPage from "@app/pages/DashboardPages/RetrainingDashboardPage";
 
 const ServerErrorPage = React.lazy(() => import('@app/pages/ServerErrorPage'));
 const Error404Page = React.lazy(() => import('@app/pages/Error404Page'));
@@ -31,6 +34,9 @@ export const NFT_DASHBOARD_PATH = '/';
 export const MEDICAL_DASHBOARD_PATH = '/medical-dashboard';
 
 const MedicalDashboard = withLoading(MedicalDashboardPage);
+const RetrainingDashboard = withLoading(RetrainingDashboardPage);
+const AnomaliesDashboard = withLoading(AnomaliesDashboardPage);
+const AlertsDashboard = withLoading(AlertsDashboardPage);
 const NftDashboard = withLoading(NftDashboardPage);
 
 const ServerError = withLoading(ServerErrorPage);
@@ -57,9 +63,12 @@ export const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={NFT_DASHBOARD_PATH} element={protectedLayout}>
-          <Route index element={<NftDashboard />} />
-          <Route path={MEDICAL_DASHBOARD_PATH} element={<MedicalDashboard />} />
+        <Route path={"/"} element={protectedLayout}>
+          <Route index element={<AlertsDashboard/>} />
+          <Route path={"/alerts-dashboard"} element={<AlertsDashboard/>} />
+          <Route path={"/anomalies-dashboard"} element={<AnomaliesDashboard/>} />
+          <Route path={"/retraining-dashboard"} element={<RetrainingDashboard/>} />
+
           <Route path={"/digital-models"} element={<DigitalModelsList />} />
           <Route path={"/digital-model/:idDigitalModel"} element={<DigitalModelPage/>} />
           <Route path="server-error" element={<ServerError />} />

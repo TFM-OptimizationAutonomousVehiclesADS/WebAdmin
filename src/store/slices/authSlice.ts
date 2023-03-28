@@ -24,10 +24,9 @@ const initialState: AuthSlice = {
 
 export const doLogin = createAsyncThunk('auth/doLogin', async (loginPayload: LoginRequest, { dispatch }) =>
   login(loginPayload).then((res) => {
-    dispatch(setUser(res.user));
-    persistToken(res.token);
-
-    return res.token;
+    dispatch(setUser(res.username));
+    persistToken(res.username);
+    return res.username;
   }),
 );
 

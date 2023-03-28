@@ -21,7 +21,7 @@ import {
 } from "@app/api/digitalModels/digitalModels.api";
 import {
     getCameraNameByCameraValue,
-    getIpComponent,
+    getIpComponent, getMetricTag,
     getParamDataByName,
     getStatusComponent
 } from "@app/utils/utilsDigitalModels";
@@ -176,28 +176,28 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigital
         {
             title: t('dm.accuracy'),
             dataIndex: 'accuracy',
-            render: (accuracy) => <span>{parseFloat(accuracy).toFixed(4)}</span>,
+            render: (accuracy) => <span>{getMetricTag(accuracy)}</span>,
             width: "10%",
             sorter: (a, b) => a.accuracy - b.accuracy,
         },
         {
             title: t('dm.precision'),
             dataIndex: 'precision',
-            render: (precision) => <span>{parseFloat(precision).toFixed(4)}</span>,
+            render: (precision) => <span>{getMetricTag(precision)}</span>,
             width: "10%",
             sorter: (a, b) => a.precision - b.precision,
         },
         {
             title: t('dm.recall'),
             dataIndex: 'recall',
-            render: (recall) => <span>{parseFloat(recall).toFixed(4)}</span>,
+            render: (recall) => <span>{getMetricTag(recall)}</span>,
             width: "10%",
             sorter: (a, b) => a.recall - b.recall,
         },
         {
             title: t('dm.f1-score'),
             dataIndex: 'f1_score',
-            render: (f1_score) => <span>{parseFloat(f1_score).toFixed(4)}</span>,
+            render: (f1_score) => <span>{getMetricTag(f1_score)}</span>,
             width: "10%",
             sorter: (a, b) => a.f1_score - b.f1_score,
         },

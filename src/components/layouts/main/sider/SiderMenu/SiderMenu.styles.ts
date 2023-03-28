@@ -5,7 +5,7 @@ import { FONT_SIZE } from '@app/styles/themes/constants';
 export const Menu = styled(AntMenu)`
   background: transparent;
   border-right: 0;
-
+  
   a {
     width: 100%;
     display: block;

@@ -2,8 +2,8 @@ import React from 'react';
 import * as S from './MainSider/MainSider.styles';
 import { RightOutlined } from '@ant-design/icons';
 import { useResponsive } from 'hooks/useResponsive';
-import logo from 'assets/logo.png';
-import logoDark from 'assets/logo-dark.png';
+import logo from '@app/assets/logo-black.png';
+import logoDark from 'assets/logo-white.png';
 import { useAppSelector } from '@app/hooks/reduxHooks';
 
 interface SiderLogoProps {
@@ -20,8 +20,8 @@ export const SiderLogo: React.FC<SiderLogoProps> = ({ isSiderCollapsed, toggleSi
   return (
     <S.SiderLogoDiv>
       <S.SiderLogoLink to="/">
-        <img src={img} alt="Optimization Autonomous Vehicles ADS" width={48} height={48} />
-        <S.BrandSpan>OAUV-ADS</S.BrandSpan>
+        <img src={img} alt="Optimization Autonomous Vehicles ADS" width={200} height={85} />
+        {/*<S.BrandSpan>OAUV-ADS</S.BrandSpan>*/}
       </S.SiderLogoLink>
       {tabletOnly && (
         <S.CollapseButton
