@@ -3,6 +3,7 @@
     "real-system": "Sistema real"
   },
   "dm": {
+    "actualModel": "Modelo actual",
     "info": "Info",
     "predictionLogs": "Predicciones",
     "anomaliesLogs": "Anomalías",

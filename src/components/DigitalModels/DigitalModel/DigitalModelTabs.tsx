@@ -14,6 +14,7 @@ import {
 } from "@app/components/DigitalModels/DigitalModel/LogsRetrainingEvaluationTableOfDigitalModel";
 import {getParamDataByName} from "@app/utils/utilsDigitalModels";
 import {DigitalModelActualModel} from "@app/components/DigitalModels/DigitalModel/DigitalModelActualModel";
+import { DigitalModelManualPrediction } from "@app/components/DigitalModels/DigitalModel/DigitalModelManualPrediction";
 
 export const DigitalModelTabs: React.FC = ({info}) => {
     const {t} = useTranslation();
@@ -44,6 +45,11 @@ export const DigitalModelTabs: React.FC = ({info}) => {
             key: 'retrainingLogs',
             label: t("dm.retrainingLogs"),
             children: <LogsRetrainingEvaluationTableOfDigitalModel idDigitalModel={idDigitalModel}/>,
+        },
+        {
+            key: 'manualPrediction',
+            label: t("dm.manualPrediction"),
+            children: <DigitalModelManualPrediction idDigitalModel={idDigitalModel}/>,
         },
     ];
 

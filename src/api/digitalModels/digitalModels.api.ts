@@ -40,6 +40,14 @@ export const getLogsRetrainingEvaluationByIdDigitalModelApi = (idDigitalModel: s
     return httpBackApi.get('/digital-models/query/' + idDigitalModel, {params: {query: "/all_logs_retraining_evaluation"}});
 };
 
-export const getDigitalModelActualModelByIdApi = (idDigitalModel: str): Promise<any> => {
+export const getDigitalModelActualModelByIdApi = (idDigitalModel: string): Promise<any> => {
     return httpBackApi.get('/digital-models/query/' + idDigitalModel, {params: {query: "/actual_evaluation_dict"}});
+};
+
+export const predictSampleDigitalModelApi = (idDigitalModel: string, sampleData): Promise<any> => {
+    return httpBackApi.post('/digital-models/predict/' + idDigitalModel, sampleData, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 };

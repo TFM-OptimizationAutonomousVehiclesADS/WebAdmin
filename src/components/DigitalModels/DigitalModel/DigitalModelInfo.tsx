@@ -26,7 +26,8 @@ export const DigitalModelInfo: React.FC = ({idDigitalModel}) => {
                 if (response.data?.digital_model) {
                     setInfo(response.data?.digital_model);
                 } else {
-                    notificationController.error({message: t("dm.errorData")});
+                    console.log(response)
+                    // notificationController.error({message: t("dm.errorData")});
                 }
             })
             .catch((error) => {
@@ -39,6 +40,10 @@ export const DigitalModelInfo: React.FC = ({idDigitalModel}) => {
 
     useEffect(() => {
         retrieveData();
+        const interval = setInterval(() => {
+            retrieveData()
+        }, 10000)
+        return () => clearInterval(interval)
     }, []);
 
 

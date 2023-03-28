@@ -3,7 +3,8 @@
     "real-system": "Real System"
   },
   "dm": {
-        "info": "Info",
+    "actualModel": "Actual model",
+    "info": "Info",
     "predictionLogs": "Predictions",
     "anomaliesLogs": "Anomalies",
     "retrainingLogs": "Retrainings",
@@ -30,7 +31,6 @@
     "noTunning": "No tunning",
     "sizeSplit": "Dataset size",
     "epochs": "Epochs",
-
     "previous": "Previous",
     "next": "Next",
     "modelDigitalName": "Digital model name",
