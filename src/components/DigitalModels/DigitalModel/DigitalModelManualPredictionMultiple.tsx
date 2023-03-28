@@ -7,7 +7,7 @@ import { notificationController } from "@app/controllers/notificationController"
 import { newDigitalModelApi, predictSampleDigitalModelApi } from "@app/api/digitalModels/digitalModels.api";
 
 
-export const DigitalModelManualPrediction: React.FC = ({ idDigitalModel }) => {
+export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [resizedImage, setResizedImage] = useState(null);
   const [objectImage, setObjectImage] = useState(null);
@@ -50,49 +50,6 @@ export const DigitalModelManualPrediction: React.FC = ({ idDigitalModel }) => {
   return (
     <>
       <Row gutter={[10, 10]}>
-        <Col span={8}>
-          <Card title={t("dm.speed")}>
-            <Form.Item label={t("dm.speed")} required>
-              <NumericInput value={speed} onChange={setSpeed} />
-            </Form.Item>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title={t("dm.rotation")}>
-            <Form.Item label={t("dm.rotation")} required>
-              <NumericInput value={rotation} onChange={setRotation} />
-            </Form.Item>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title={t("dm.camera")}>
-            <Form.Item label={t("dm.camera")} required>
-              <Select
-                value={camera}
-                onChange={setCamera}
-                options={[
-                  { value: "CAM_FRONT", label: "CAM_FRONT" },
-                  { value: "CAM_BACK", label: "CAM_BACK" }
-                ]}
-              />
-            </Form.Item>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title={t("dm.resizeImage")}>
-            <DropzoneImage image={resizedImage} setImage={setResizedImage} />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title={t("dm.objectImage")}>
-            <DropzoneImage image={objectImage} setImage={setObjectImage} />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title={t("dm.surfaceImage")}>
-            <DropzoneImage image={surfaceImage} setImage={setSurfaceImage} />
-          </Card>
-        </Col>
         <Col span={24}>
           {/*<Card>*/}
           <Button loading={loading} block type={"primary"} onClick={predictSample}>

@@ -19,12 +19,12 @@ export const DropzoneImage = ({ image, setImage }) => {
   return (
     <div {...getRootProps()}>
       <input {...getInputProps()} />
-      <div style={{width: "50vh", height: "50vh", border: "1px solid",
+      <div style={{width: "50vh", height: "30vh", border: "1px solid",
         textAlign: "center", display: "flex", justifyContent: "center", alignItems: "center"}}>
         {image ?
           <img src={image.preview} alt="" style={{maxWidth: "100%", maxHeight: "100%"}} />
           :
-          <p>Arrastra y suelta imágenes aquí, o haz clic para seleccionar imágenes.</p>
+          <p>Drag and drop the image or click here to add the image</p>
         }
       </div>
     </div>

@@ -14,7 +14,10 @@ import {
 } from "@app/components/DigitalModels/DigitalModel/LogsRetrainingEvaluationTableOfDigitalModel";
 import {getParamDataByName} from "@app/utils/utilsDigitalModels";
 import {DigitalModelActualModel} from "@app/components/DigitalModels/DigitalModel/DigitalModelActualModel";
-import { DigitalModelManualPrediction } from "@app/components/DigitalModels/DigitalModel/DigitalModelManualPrediction";
+import { DigitalModelManualPredictionSingle } from "@app/components/DigitalModels/DigitalModel/DigitalModelManualPredictionSingle";
+import {
+    DigitalModelManualPredictionTabs
+} from "@app/components/DigitalModels/DigitalModel/DigitalModelManualPredictionTabs";
 
 export const DigitalModelTabs: React.FC = ({info}) => {
     const {t} = useTranslation();
@@ -49,7 +52,7 @@ export const DigitalModelTabs: React.FC = ({info}) => {
         {
             key: 'manualPrediction',
             label: t("dm.manualPrediction"),
-            children: <DigitalModelManualPrediction idDigitalModel={idDigitalModel}/>,
+            children: <DigitalModelManualPredictionTabs idDigitalModel={idDigitalModel}/>,
         },
     ];
 

@@ -3,6 +3,11 @@
     "real-system": "Real System"
   },
   "dm": {
+    "predict": "Predict",
+    "single": "Single",
+    "multiple": "Multiple",
+    "resizeImage": "Image",
+    "manualPrediction": "Manual prediction",
     "actualModel": "Actual model",
     "info": "Info",
     "predictionLogs": "Predictions",

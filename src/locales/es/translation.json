@@ -3,6 +3,11 @@
     "real-system": "Sistema real"
   },
   "dm": {
+    "predict": "Predecir",
+    "single": "Individual",
+    "multiple": "Múltiple",
+    "resizeImage": "Imágen",
+    "manualPrediction": "Predicción Manual",
     "actualModel": "Modelo actual",
     "info": "Info",
     "predictionLogs": "Predicciones",
