@@ -3,6 +3,9 @@
     "real-system": "Real System"
   },
   "dm": {
+    "loss": "loss",
+    "neuronalNetworkModel": "Neuronal network model",
+    "metrics": "Metrics",
     "predict": "Predict",
     "single": "Single",
     "multiple": "Multiple",

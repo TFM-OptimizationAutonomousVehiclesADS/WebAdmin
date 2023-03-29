@@ -88,40 +88,40 @@ export const DigitalModelActualModel: React.FC = ({ idDigitalModel }) => {
         <Col span={8}>
           <Card title={t("dm.retrainingFeatures")} style={{height: "100%"}}>
             <Row gutter={[10, 10]}>
-              <Col span={4}>
+              <Col flex={"auto"}>
                 <Card type={"inside"} title={t("dm.testSize")}>
                   {info?.test_size}
                 </Card>
               </Col>
-              <Col span={6}>
+              <Col flex={"auto"}>
                 <Card type={"inside"} title={t("dm.sizeSplit")}>
                   {info?.size_split}
                 </Card>
               </Col>
-              <Col span={4}>
+              <Col flex={"auto"}>
                 <Card type={"inside"} title={t("dm.epochs")}>
                   {info?.epochs}
                 </Card>
               </Col>
-              <Col span={6}>
+              <Col flex={"auto"}>
                 <Card type={"inside"} title={t("dm.bestEpoch")}>
                   <Checkbox
                     checked={Boolean(info?.best_epoch || 0)} />
                 </Card>
               </Col>
-              <Col span={6}>
+              <Col flex={"auto"}>
                 <Card type={"inside"} title={t("dm.retrainWeights")}>
                   <Checkbox
                     checked={Boolean(info?.retrain_weights || 0)} />
                 </Card>
               </Col>
-              <Col span={6}>
+              <Col flex={"auto"}>
                 <Card type={"inside"} title={t("dm.randomSamples")}>
                   <Checkbox
                     checked={Boolean(info?.random || 0)} />
                 </Card>
               </Col>
-              <Col span={6}>
+              <Col flex={"auto"}>
                 <Card type={"inside"} title={t("dm.tunning")}>
                   <Checkbox
                     checked={Boolean(info?.tunning || 0)} />

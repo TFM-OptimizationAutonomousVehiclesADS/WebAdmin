@@ -3,10 +3,13 @@
     "real-system": "Sistema real"
   },
   "dm": {
+    "loss": "loss",
+    "neuronalNetworkModel": "Modelo red neuronal",
+    "metrics": "Métricas",
     "predict": "Predecir",
     "single": "Individual",
     "multiple": "Múltiple",
-    "resizeImage": "Imágen",
+    "resizeImage": "Imagen",
     "manualPrediction": "Predicción Manual",
     "actualModel": "Modelo actual",
     "info": "Info",
@@ -20,7 +23,7 @@
     "camera": "Cámara",
     "speed": "Velocidad",
     "rotation": "Rotación",
-    "resizedImage": "Imágen",
+    "resizedImage": "Imagen",
     "objectImage": "Objetos",
     "surfaceImage": "Superficie",
     "prediction": "Predicción",

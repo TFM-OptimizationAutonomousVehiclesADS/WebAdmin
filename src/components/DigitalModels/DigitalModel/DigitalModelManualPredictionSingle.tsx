@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Card, Checkbox, Tooltip, Button, Form, Select } from "antd";
 import { useTranslation } from "react-i18next";
-import { DropzoneImage } from "@app/components/Dropzone";
+import { DropzoneImage } from "@app/components/Dropzone/DropzoneImage";
 import { NumericInput } from "@app/components/DigitalModels/List/NumericInput";
 import { notificationController } from "@app/controllers/notificationController";
 import { newDigitalModelApi, predictSampleDigitalModelApi } from "@app/api/digitalModels/digitalModels.api";
