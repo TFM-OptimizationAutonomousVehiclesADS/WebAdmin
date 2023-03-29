@@ -44,8 +44,8 @@ export const getDigitalModelActualModelByIdApi = (idDigitalModel: string): Promi
     return httpBackApi.get('/digital-models/query/' + idDigitalModel, {params: {query: "/actual_evaluation_dict"}});
 };
 
-export const predictSampleDigitalModelApi = (idDigitalModel: string, sampleData): Promise<any> => {
-    return httpBackApi.post('/digital-models/predict/' + idDigitalModel, sampleData, {
+export const predictSampleDigitalModelSingleApi = (idDigitalModel: string, sampleData): Promise<any> => {
+    return httpBackApi.post('/digital-models/predict/' + idDigitalModel + "/single", sampleData, {
         headers: {
             'Content-Type': 'application/json'
         }

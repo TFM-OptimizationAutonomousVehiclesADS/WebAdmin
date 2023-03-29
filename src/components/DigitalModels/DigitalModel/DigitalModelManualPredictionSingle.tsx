@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import { DropzoneImage } from "@app/components/Dropzone/DropzoneImage";
 import { NumericInput } from "@app/components/DigitalModels/List/NumericInput";
 import { notificationController } from "@app/controllers/notificationController";
-import { newDigitalModelApi, predictSampleDigitalModelApi } from "@app/api/digitalModels/digitalModels.api";
+import {
+  predictSampleDigitalModelSingleApi
+} from "@app/api/digitalModels/digitalModels.api";
 
 
 export const DigitalModelManualPredictionSingle: React.FC = ({ idDigitalModel }) => {
@@ -31,7 +33,7 @@ export const DigitalModelManualPredictionSingle: React.FC = ({ idDigitalModel })
     formData.append("rotation_rate_z", rotation);
     formData.append("channel_camera", camera);
 
-    predictSampleDigitalModelApi(formData)
+    predictSampleDigitalModelSingleApi(idDigitalModel, formData)
       .then((response) => {
         if (response.data) {
           notificationController.success({ message: t("dm.successData") });
