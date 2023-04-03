@@ -52,13 +52,13 @@ export const DigitalModelTabs: React.FC = ({info}) => {
         {
             key: 'manualPrediction',
             label: t("dm.manualPrediction"),
-            children: <DigitalModelManualPredictionTabs idDigitalModel={idDigitalModel}/>,
+            children: <DigitalModelManualPredictionTabs idDigitalModel={idDigitalModel} thresholdAnomaly={parseFloat(getParamDataByName("DIGITAL_MODEL_THRESHOLD_ANOMALY", info?.params)) || 0.5}/>,
         },
     ];
 
     return (
         <>
-            <Tabs defaultActiveKey="info" items={items}/>
+            <Tabs defaultActiveKey="info" items={items} destroyInactiveTabPane/>
         </>
     );
 };

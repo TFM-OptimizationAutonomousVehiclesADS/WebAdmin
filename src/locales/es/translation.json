@@ -196,6 +196,7 @@
     "unchecked": "Unchecked"
   },
   "common": {
+    "search": "Buscar",
     "alerts-dashboard": "Panel Alertas",
     "anomalies-dashboard": "Panel Anomalías",
     "retraining-dashboard": "Panel Entrenamientos",

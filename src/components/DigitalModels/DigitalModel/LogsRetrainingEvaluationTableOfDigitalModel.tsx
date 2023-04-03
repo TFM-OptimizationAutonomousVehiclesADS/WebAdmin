@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Col, Row, Space, TablePaginationConfig, Tooltip, Button, Image, Checkbox} from 'antd';
+import {Col, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image, Checkbox} from 'antd';
 import {DeleteFilled, StopFilled, CaretRightFilled} from "@ant-design/icons";
 import {BasicTableRow, getBasicTableData, Pagination, Tag} from 'api/table.api';
 import {Table} from 'components/common/Table/Table';
@@ -7,17 +7,8 @@ import {ColumnsType} from 'antd/es/table';
 import {useTranslation} from 'react-i18next';
 import {defineColorByPriority, getLocaleStringDateTime} from '@app/utils/utils';
 import {notificationController} from 'controllers/notificationController';
-import {Status} from '@app/components/profile/profileCard/profileFormNav/nav/payments/paymentHistory/Status/Status';
-import {useMounted} from '@app/hooks/useMounted';
 import {
-    deleteDigitalModelApi,
-    getAllDigitalModelsApi,
-    getLogsAnomaliesByIdDigitalModelApi,
-    getLogsRetrainingEvaluationByIdDigitalModelApi,
-    getLogsSamplesByIdDigitalModelApi,
-    newDigitalModelApi,
-    startDigitalModelApi,
-    stopDigitalModelApi
+    getLogsRetrainingEvaluationByIdDigitalModelApi, getLogsRetrainingEvaluationByIdDigitalModelApiAndRange
 } from "@app/api/digitalModels/digitalModels.api";
 import {
     getCameraNameByCameraValue,
@@ -25,22 +16,32 @@ import {
     getParamDataByName,
     getStatusComponent
 } from "@app/utils/utilsDigitalModels";
-import {NewDigitalModelButton} from "@app/components/DigitalModels/List/NewDigitalModelButton";
-import {Link} from "react-router-dom";
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+
+const dateFormat = 'DD/MM/YYYY HH:mm:ss';
+const startDatetime = dayjs().subtract(1, "day");
+const endDatetime = dayjs();
+const { RangePicker } = DatePicker;
 
 const initialPagination: Pagination = {
     defaultCurrent: 1,
-    defaultPageSize: 20,
+    defaultPageSize: 10,
 };
+
+
 
 export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigitalModel}) => {
     const [pagination, setPagination] = useState(initialPagination);
     const [logsRetraining, setLogsRetraining] = useState([]);
+    const [rangeDatetime, setRangeDatetime] = useState([startDatetime, endDatetime]);
     const [loading, setLoading] = useState<boolean>(true);
     const {t} = useTranslation();
 
     const retrieveData = () => {
-        getLogsRetrainingEvaluationByIdDigitalModelApi(idDigitalModel)
+        getLogsRetrainingEvaluationByIdDigitalModelApiAndRange(idDigitalModel, rangeDatetime)
             .then((response) => {
                 if (response.data?.data?.logs) {
                     setLogsRetraining(JSON.parse(response.data?.data.logs));
@@ -57,10 +58,10 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigital
 
     useEffect(() => {
         retrieveData();
-        const interval = setInterval(() => {
-            retrieveData()
-        }, 10000)
-        return () => clearInterval(interval)
+        // const interval = setInterval(() => {
+        //     retrieveData()
+        // }, 10000)
+        // return () => clearInterval(interval)
     }, []);
 
     const columns: ColumnsType<BasicTableRow> = [
@@ -202,6 +203,34 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigital
             sorter: (a, b) => a.f1_score - b.f1_score,
         },
         {
+            title: t('dm.tp'),
+            dataIndex: 'tp',
+            render: (tp) => <span>{tp}</span>,
+            width: "10%",
+            sorter: (a, b) => a.f1_score - b.f1_score,
+        },
+        {
+            title: t('dm.tn'),
+            dataIndex: 'tn',
+            render: (tn) => <span>{tn}</span>,
+            width: "10%",
+            sorter: (a, b) => a.f1_score - b.f1_score,
+        },
+        {
+            title: t('dm.fp'),
+            dataIndex: 'fp',
+            render: (fp) => <span>{fp}</span>,
+            width: "10%",
+            sorter: (a, b) => a.f1_score - b.f1_score,
+        },
+        {
+            title: t('dm.fn'),
+            dataIndex: 'fn',
+            render: (fn) => <span>{fn}</span>,
+            width: "10%",
+            sorter: (a, b) => a.f1_score - b.f1_score,
+        },
+        {
             title: t('dm.date'),
             dataIndex: 'timestamp',
             render: (timestamp) => <span>{getLocaleStringDateTime(timestamp * 1000)}</span>,
@@ -210,12 +239,20 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigital
         },
     ];
 
+    const onChangeRangePicker = (datesObjects, datesStrings) => {
+        setRangeDatetime(datesObjects);
+    }
+
     return (
         <>
             <Row gutter={[10, 10]}>
                 <Col span={24}>
                     <Row justify={"end"}>
-                        <Col span={3}>
+                        <Col>
+                            <RangePicker allowClear showTime format={dateFormat} value={rangeDatetime} onChange={onChangeRangePicker}/>
+                        </Col>
+                        <Col>
+                            <Button onClick={retrieveData} block type={"ghost"}>{t("common.search")}</Button>
                         </Col>
                     </Row>
                 </Col>

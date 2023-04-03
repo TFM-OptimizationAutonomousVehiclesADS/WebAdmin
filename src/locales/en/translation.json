@@ -196,6 +196,7 @@
     "unchecked": "Unchecked"
   },
   "common": {
+    "search": "Search",
     "alerts-dashboard": "Alerts Dash",
     "anomalies-dashboard": "Anomalies Dash",
     "retraining-dashboard": "Retraining Dash",

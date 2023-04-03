@@ -42,7 +42,7 @@ export const NewDigitalModelButton: React.FC = () => {
     const newDigitalModel = () => {
         let formData = new FormData();    //formdata object
         formData.append('container_name', containerName);
-        formData.append('DIGITAL_MODEL_USERNAME_OWNER', user?.userName);
+        formData.append('DIGITAL_MODEL_USERNAME_OWNER', user);
         formData.append('DIGITAL_MODEL_RETRAINING_TEST_SIZE', testSize);
         formData.append('DIGITAL_MODEL_RETRAINING_TUNNING', tunning);
         formData.append('DIGITAL_MODEL_RETRAINING_MIN_SPLIT', minSplit);

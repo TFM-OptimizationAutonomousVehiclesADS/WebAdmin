@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Col, Row, Space, TablePaginationConfig, Tooltip, Button, Image} from 'antd';
+import {Col, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image} from 'antd';
 import {DeleteFilled, StopFilled, CaretRightFilled} from "@ant-design/icons";
 import {BasicTableRow, getBasicTableData, Pagination, Tag} from 'api/table.api';
 import {Table} from 'components/common/Table/Table';
@@ -11,7 +11,11 @@ import {Status} from '@app/components/profile/profileCard/profileFormNav/nav/pay
 import {useMounted} from '@app/hooks/useMounted';
 import {
     deleteDigitalModelApi,
-    getAllDigitalModelsApi, getLogsAnomaliesByIdDigitalModelApi, getLogsSamplesByIdDigitalModelApi, newDigitalModelApi,
+    getAllDigitalModelsApi,
+    getLogsAnomaliesByIdDigitalModelApi,
+    getLogsAnomaliesByIdDigitalModelApiAndRange,
+    getLogsSamplesByIdDigitalModelApi,
+    newDigitalModelApi,
     startDigitalModelApi,
     stopDigitalModelApi
 } from "@app/api/digitalModels/digitalModels.api";
@@ -23,6 +27,15 @@ import {
 } from "@app/utils/utilsDigitalModels";
 import {NewDigitalModelButton} from "@app/components/DigitalModels/List/NewDigitalModelButton";
 import {Link} from "react-router-dom";
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+
+const dateFormat = 'DD/MM/YYYY HH:mm:ss';
+const startDatetime = dayjs().subtract(1, "day");
+const endDatetime = dayjs();
+const { RangePicker } = DatePicker;
 
 const initialPagination: Pagination = {
     defaultCurrent: 1,
@@ -33,10 +46,11 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
     const [pagination, setPagination] = useState(initialPagination);
     const [logsSamples, setLogsSamples] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [rangeDatetime, setRangeDatetime] = useState([startDatetime, endDatetime]);
     const {t} = useTranslation();
 
     const retrieveData = () => {
-        getLogsAnomaliesByIdDigitalModelApi(idDigitalModel)
+        getLogsAnomaliesByIdDigitalModelApiAndRange(idDigitalModel, rangeDatetime)
             .then((response) => {
                 if (response.data?.data?.anomalies) {
                     setLogsSamples(JSON.parse(response.data?.data.anomalies));
@@ -52,10 +66,10 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
 
     useEffect(() => {
         retrieveData();
-        const interval = setInterval(() => {
-            retrieveData()
-        }, 10000)
-        return () => clearInterval(interval)
+        // const interval = setInterval(() => {
+        //     retrieveData()
+        // }, 10000)
+        // return () => clearInterval(interval)
     }, []);
 
     const columns: ColumnsType<BasicTableRow> = [
@@ -125,12 +139,20 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
         },
     ];
 
+    const onChangeRangePicker = (datesObjects, datesStrings) => {
+        setRangeDatetime(datesObjects);
+    }
+
     return (
         <>
             <Row gutter={[10, 10]}>
                 <Col span={24}>
                     <Row justify={"end"}>
-                        <Col span={3}>
+                        <Col>
+                            <RangePicker showTime format={dateFormat} value={rangeDatetime} onChange={onChangeRangePicker}/>
+                        </Col>
+                        <Col>
+                            <Button onClick={retrieveData} block type={"ghost"}>{t("common.search")}</Button>
                         </Col>
                     </Row>
                 </Col>

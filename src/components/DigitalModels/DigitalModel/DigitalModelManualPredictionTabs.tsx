@@ -15,19 +15,19 @@ import {
 } from "@app/components/DigitalModels/DigitalModel/DigitalModelManualPredictionMultiple";
 
 
-export const DigitalModelManualPredictionTabs: React.FC = ({ idDigitalModel }) => {
+export const DigitalModelManualPredictionTabs: React.FC = ({ idDigitalModel, thresholdAnomaly}) => {
   const { t } = useTranslation();
 
   const items: TabsProps["items"] = [
     {
       key: "single",
       label: t("dm.single"),
-      children: <DigitalModelManualPredictionSingle idDigitalModel={idDigitalModel} />
+      children: <DigitalModelManualPredictionSingle idDigitalModel={idDigitalModel} thresholdAnomaly={thresholdAnomaly}/>
     },
     {
       key: "multiple",
       label: t("dm.multiple"),
-      children: <DigitalModelManualPredictionMultiple idDigitalModel={idDigitalModel} />
+      children: <DigitalModelManualPredictionMultiple idDigitalModel={idDigitalModel} thresholdAnomaly={thresholdAnomaly}/>
     }
   ];
 

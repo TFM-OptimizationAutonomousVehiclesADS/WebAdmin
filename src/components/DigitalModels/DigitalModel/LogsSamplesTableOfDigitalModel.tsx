@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Col, Row, Space, TablePaginationConfig, Tooltip, Button, Image, Checkbox} from 'antd';
+import {Col, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image, Checkbox} from 'antd';
 import {DeleteFilled, StopFilled, CaretRightFilled} from "@ant-design/icons";
 import {BasicTableRow, getBasicTableData, Pagination, Tag} from 'api/table.api';
 import {Table} from 'components/common/Table/Table';
@@ -9,11 +9,20 @@ import {getLocaleStringDateTime} from '@app/utils/utils';
 import {notificationController} from 'controllers/notificationController';
 import {
     getDigitalModelByIdApi,
-    getLogsSamplesByIdDigitalModelApi, newDigitalModelApi,
+    getLogsSamplesByIdDigitalModelApi, getLogsSamplesByIdDigitalModelApiAndRange, newDigitalModelApi
 } from "@app/api/digitalModels/digitalModels.api";
 import {
     getCameraNameByCameraValue, getParamDataByName, getPredictionTag,
 } from "@app/utils/utilsDigitalModels";
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+
+const dateFormat = 'DD/MM/YYYY HH:mm:ss';
+const startDatetime = dayjs().subtract(1, "day");
+const endDatetime = dayjs();
+const { RangePicker } = DatePicker;
 
 const initialPagination: Pagination = {
     defaultCurrent: 1,
@@ -24,10 +33,11 @@ export const LogsSamplesTableOfDigitalModel: React.FC = ({idDigitalModel, thresh
     const [pagination, setPagination] = useState(initialPagination);
     const [logsSamples, setLogsSamples] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [rangeDatetime, setRangeDatetime] = useState([startDatetime, endDatetime]);
     const {t} = useTranslation();
 
     const retrieveData = () => {
-        getLogsSamplesByIdDigitalModelApi(idDigitalModel)
+        getLogsSamplesByIdDigitalModelApiAndRange(idDigitalModel, rangeDatetime)
             .then((response) => {
                 if (response.data?.data?.logs) {
                     setLogsSamples(JSON.parse(response.data?.data.logs));
@@ -43,10 +53,10 @@ export const LogsSamplesTableOfDigitalModel: React.FC = ({idDigitalModel, thresh
 
     useEffect(() => {
         retrieveData();
-        const interval = setInterval(() => {
-            retrieveData()
-        }, 10000)
-        return () => clearInterval(interval)
+        // const interval = setInterval(() => {
+        //     retrieveData()
+        // }, 10000)
+        // return () => clearInterval(interval)
     }, []);
 
     const columns: ColumnsType<BasicTableRow> = [
@@ -134,12 +144,20 @@ export const LogsSamplesTableOfDigitalModel: React.FC = ({idDigitalModel, thresh
         },
     ];
 
+    const onChangeRangePicker = (datesObjects, datesStrings) => {
+        setRangeDatetime(datesObjects);
+    }
+
     return (
         <>
             <Row gutter={[10, 10]}>
                 <Col span={24}>
                     <Row justify={"end"}>
-                        <Col span={3}>
+                        <Col>
+                            <RangePicker showTime format={dateFormat} value={rangeDatetime} onChange={onChangeRangePicker}/>
+                        </Col>
+                        <Col>
+                            <Button onClick={retrieveData} block type={"ghost"}>{t("common.search")}</Button>
                         </Col>
                     </Row>
                 </Col>

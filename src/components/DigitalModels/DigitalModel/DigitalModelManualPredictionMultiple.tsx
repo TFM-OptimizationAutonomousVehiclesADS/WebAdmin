@@ -4,7 +4,10 @@ import { useTranslation } from "react-i18next";
 import { DropzoneImage } from "@app/components/Dropzone/DropzoneImage";
 import { NumericInput } from "@app/components/DigitalModels/List/NumericInput";
 import { notificationController } from "@app/controllers/notificationController";
-import { predictSampleDigitalModelSingleApi } from "@app/api/digitalModels/digitalModels.api";
+import {
+  predictSampleDigitalModelMultipleApi,
+  predictSampleDigitalModelSingleApi
+} from "@app/api/digitalModels/digitalModels.api";
 import { DropzoneCSV } from "@app/components/Dropzone/DropzoneCSV";
 
 
@@ -22,7 +25,7 @@ export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel 
     }
     formData.append("fileCSV", file);
 
-    predictSampleDigitalModelSingleApi(idDigitalModel, formData)
+    predictSampleDigitalModelMultipleApi(idDigitalModel, formData)
       .then((response) => {
         if (response.data) {
           notificationController.success({ message: t("dm.successData") });
