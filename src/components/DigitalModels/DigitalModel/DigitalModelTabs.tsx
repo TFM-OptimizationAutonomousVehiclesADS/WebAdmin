@@ -18,6 +18,9 @@ import { DigitalModelManualPredictionSingle } from "@app/components/DigitalModel
 import {
     DigitalModelManualPredictionTabs
 } from "@app/components/DigitalModels/DigitalModel/DigitalModelManualPredictionTabs";
+import {
+    LogsRetrainingEvaluationTemplateOfDigitalModel
+} from "@app/components/DigitalModels/DigitalModel/LogsRetrainingEvaluationTemplateOfDigitalModel";
 
 export const DigitalModelTabs: React.FC = ({info}) => {
     const {t} = useTranslation();
@@ -47,7 +50,7 @@ export const DigitalModelTabs: React.FC = ({info}) => {
         {
             key: 'retrainingLogs',
             label: t("dm.retrainingLogs"),
-            children: <LogsRetrainingEvaluationTableOfDigitalModel idDigitalModel={idDigitalModel}/>,
+            children: <LogsRetrainingEvaluationTemplateOfDigitalModel idDigitalModel={idDigitalModel}/>,
         },
         {
             key: 'manualPrediction',

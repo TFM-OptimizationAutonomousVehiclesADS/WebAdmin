@@ -9,10 +9,13 @@ import {
   predictSampleDigitalModelSingleApi
 } from "@app/api/digitalModels/digitalModels.api";
 import { DropzoneCSV } from "@app/components/Dropzone/DropzoneCSV";
+import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
+import { ConfusionMatrix } from "@app/components/ConfusionMatrix/ConfusionMatrix";
 
 
 export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [evaluationDict, setEvaluationDict] = useState(null);
   const [file, setFile] = useState(null);
   const { t } = useTranslation();
 
@@ -24,10 +27,13 @@ export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel 
       return;
     }
     formData.append("fileCSV", file);
-
+    setEvaluationDict(null);
     predictSampleDigitalModelMultipleApi(idDigitalModel, formData)
       .then((response) => {
         if (response.data) {
+          if (response.data?.evaluation_dict?.evaluation_dict) {
+            setEvaluationDict(response.data?.evaluation_dict?.evaluation_dict);
+          }
           notificationController.success({ message: t("dm.successData") });
         } else {
           notificationController.error({ message: t("dm.errorData") });
@@ -56,6 +62,23 @@ export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel 
           </Button>
           {/*</Card>*/}
         </Col>
+        {evaluationDict && (
+          <Col span={24}>
+            <Card title={t("dm.prediction")}>
+              <Row gutter={[10, 10]}>
+                <Col span={12}>
+                  <RadarMetricsChart evaluationsListData={[{
+                    model_name: "model",
+                    ...evaluationDict
+                  }]}/>
+                </Col>
+                <Col span={12}>
+                  <ConfusionMatrix tp={evaluationDict?.tp || 0} tn={evaluationDict?.tn || 0} fp={evaluationDict?.fp || 0} fn={evaluationDict?.fn || 0}/>
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+        )}
       </Row>
     </>
 

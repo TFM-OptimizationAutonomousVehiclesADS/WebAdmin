@@ -7,8 +7,8 @@ import { notificationController } from "@app/controllers/notificationController"
 import {
   predictSampleDigitalModelSingleApi
 } from "@app/api/digitalModels/digitalModels.api";
-import { getPredictionTag } from "@app/utils/utilsDigitalModels";
-import {UpCircleOutlined, DownCircleOutlined} from "@ant-design/icons";
+import { getColorDirectionBySpeed, getIconDirectionByFeatures, getPredictionTag } from "@app/utils/utilsDigitalModels";
+import Icon, {UpCircleOutlined, DownCircleOutlined} from "@ant-design/icons";
 
 
 export const DigitalModelManualPredictionSingle: React.FC = ({ idDigitalModel, thresholdAnomaly }) => {
@@ -84,6 +84,12 @@ export const DigitalModelManualPredictionSingle: React.FC = ({ idDigitalModel, t
                 ]}
               />
             </Form.Item>
+          </Card>
+        </Col>
+        <Col span={24}>
+          <Card type={"inside"} style={{height: "100%"}} bodyStyle={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+            <Icon style={{fontSize: "5vh", color: getColorDirectionBySpeed(speed)}}
+                  component={getIconDirectionByFeatures(camera, rotation)}/>
           </Card>
         </Col>
         <Col span={8}>

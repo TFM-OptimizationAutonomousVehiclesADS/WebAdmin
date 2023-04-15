@@ -1,4 +1,5 @@
 import {Tag} from "antd";
+import {BsArrowUp, BsArrowUpRight, BsArrowUpLeft, BsArrowDown, BsArrowDownLeft, BsArrowDownRight} from "react-icons/bs"
 
 export const getStatusComponent = (status: string) => {
     const color = getStatusColor(status);
@@ -17,6 +18,54 @@ export const getPredictionTag = (prediction: number, threshold: number) => {
         return <Tag color={"#ab0404"}>{prediction}</Tag>
     } else {
         return <Tag color={"#419b5d"}>{prediction}</Tag>
+    }
+}
+
+export const getColorDirectionBySpeed = (speed: number): string => {
+    speed = parseFloat(speed);
+    if (speed > -0.5 && speed < 0.5) {
+        return "#7c7a7a"
+    }
+    else if (speed > -1 && speed < 1) {
+        return "#468cd5"
+    }
+    else if ((speed > -5 && speed <= -1) || (speed < 5 && speed >= 1)) {
+        return "#51c767"
+    }
+    else if ((speed > -10 && speed <= -5) || (speed < 10 && speed >= 5)) {
+        return "#b6984a"
+    } else {
+        return "#bd4c4c"
+    }
+}
+
+export const getIconDirectionByFeatures = (camera: string, rotation: number): React.ReactNode => {
+    rotation = parseFloat(rotation);
+    console.log(rotation);
+    if (camera === "CAM_FRONT") {
+        if (rotation > -0.1 && rotation < 0.1) { // RECTO
+            return BsArrowUp;
+        } else if (rotation <= -0.1) { // RECTO IZQUIERDA
+            return BsArrowUpLeft;
+        } else { // RECTO DERECHA
+            return BsArrowUpRight;
+        }
+    } else {
+        if (rotation > -0.1 && rotation < 0.1) { // ATRAS
+            return BsArrowDown;
+        } else if (rotation <= -0.1) { // ATRAS DERECHA
+            return BsArrowDownLeft;
+        } else { // ATRAS izquierda
+            return BsArrowDownRight;
+        }
+    }
+}
+
+export const getPredictionTagFlexBlock = (prediction: number, threshold: number, fontSize: string | number) => {
+    if (prediction >= threshold) {
+        return <Tag style={{display: "flex", justifyContent: "center", alignItems: "center", height: fontSize, fontSize: fontSize}} color={"#ab0404"}>{prediction}</Tag>
+    } else {
+        return <Tag style={{display: "flex", justifyContent: "center", alignItems: "center", height: fontSize, fontSize: fontSize}} color={"#419b5d"}>{prediction}</Tag>
     }
 }
 

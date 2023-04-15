@@ -3,6 +3,11 @@
     "real-system": "Sistema real"
   },
   "dm": {
+    "good": "Bien",
+    "bad": "Mal",
+    "direction": "Dirección",
+    "tableView": "Vista Tabla",
+    "preview": "Vista Preview",
     "loss": "loss",
     "neuronalNetworkModel": "Modelo red neuronal",
     "metrics": "Métricas",

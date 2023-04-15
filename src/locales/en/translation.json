@@ -3,6 +3,8 @@
     "real-system": "Real System"
   },
   "dm": {
+    "tableView": "Table view",
+    "preview": "Preview",
     "loss": "loss",
     "neuronalNetworkModel": "Neuronal network model",
     "metrics": "Metrics",

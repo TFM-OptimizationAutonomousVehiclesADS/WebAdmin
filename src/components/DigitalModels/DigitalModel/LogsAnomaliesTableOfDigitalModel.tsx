@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Col, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image} from 'antd';
+import { Col, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image, Modal } from "antd";
 import {DeleteFilled, StopFilled, CaretRightFilled} from "@ant-design/icons";
 import {BasicTableRow, getBasicTableData, Pagination, Tag} from 'api/table.api';
 import {Table} from 'components/common/Table/Table';
@@ -29,6 +29,8 @@ import {NewDigitalModelButton} from "@app/components/DigitalModels/List/NewDigit
 import {Link} from "react-router-dom";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
+import { LogSampleResultsPreview } from "@app/components/DigitalModels/DigitalModel/LogSampleResultsPreview";
 
 dayjs.extend(customParseFormat);
 
@@ -47,6 +49,8 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
     const [logsSamples, setLogsSamples] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [rangeDatetime, setRangeDatetime] = useState([startDatetime, endDatetime]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [logSampleIndexSelected, setLogSampleIndexSelected] = useState(0);
     const {t} = useTranslation();
 
     const retrieveData = () => {
@@ -143,6 +147,38 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
         setRangeDatetime(datesObjects);
     }
 
+    const handleRowClick = (record, index) => {
+        const foundIndex = logsSamples.findIndex(item => (
+          item["_id"] === record["_id"]
+        ));
+        setLogSampleIndexSelected(foundIndex);
+        showModal();
+    };
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    const handlePrevClick = () => {
+        if (logSampleIndexSelected > 0) {
+            setLogSampleIndexSelected(logSampleIndexSelected - 1);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (logSampleIndexSelected < (logsSamples?.length-1)) {
+            setLogSampleIndexSelected(logSampleIndexSelected + 1);
+        }
+    };
+
     return (
         <>
             <Row gutter={[10, 10]}>
@@ -165,10 +201,30 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
                         loading={loading}
                         // onChange={handleTableChange}
                         scroll={{x: 800}}
+                        onRow={(record, index) => {
+                            return {
+                                onClick: () => handleRowClick(record, index),
+                            };
+                        }}
                         bordered
                     />
                 </Col>
             </Row>
+            <Modal open={isModalOpen} centered width={2000} onOk={handleOk} onCancel={handleCancel}>
+                <LogSampleResultsPreview logSampleInfo={logsSamples[logSampleIndexSelected]} thresholdAnomaly={thresholdAnomaly}/>
+                {logSampleIndexSelected > 0 &&
+                  <div style={{ position: 'absolute', left: "-10vh", top: "50vh"}}>
+                      <Button onClick={handlePrevClick} block style={{fontSize: "5vh", height: "100%"}}>
+                          {'<'}
+                      </Button>
+                  </div>}
+                {logSampleIndexSelected < (logsSamples?.length-1) &&
+                  <div style={{ position: 'absolute', right: "-10vh", top: "50vh"}}>
+                      <Button onClick={handleNextClick} block style={{fontSize: "5vh", height: "100%"}}>
+                          {'>'}
+                      </Button>
+                  </div>}
+            </Modal>
         </>
 
     );

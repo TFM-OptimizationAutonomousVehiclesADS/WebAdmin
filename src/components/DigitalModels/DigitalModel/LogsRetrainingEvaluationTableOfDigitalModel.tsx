@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Col, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image, Checkbox} from 'antd';
+import {Col, Modal, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image, Checkbox} from 'antd';
 import {DeleteFilled, StopFilled, CaretRightFilled} from "@ant-design/icons";
 import {BasicTableRow, getBasicTableData, Pagination, Tag} from 'api/table.api';
 import {Table} from 'components/common/Table/Table';
@@ -18,6 +18,8 @@ import {
 } from "@app/utils/utilsDigitalModels";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { ConfusionMatrix } from "@app/components/ConfusionMatrix/ConfusionMatrix";
+import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
 
 dayjs.extend(customParseFormat);
 
@@ -33,42 +35,16 @@ const initialPagination: Pagination = {
 
 
 
-export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigitalModel}) => {
-    const [pagination, setPagination] = useState(initialPagination);
-    const [logsRetraining, setLogsRetraining] = useState([]);
-    const [rangeDatetime, setRangeDatetime] = useState([startDatetime, endDatetime]);
-    const [loading, setLoading] = useState<boolean>(true);
+export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({logsRetraining, loading}) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [evaluationIndexSelected, setEvaluationIndexSelected] = useState(0);
     const {t} = useTranslation();
-
-    const retrieveData = () => {
-        getLogsRetrainingEvaluationByIdDigitalModelApiAndRange(idDigitalModel, rangeDatetime)
-            .then((response) => {
-                if (response.data?.data?.logs) {
-                    setLogsRetraining(JSON.parse(response.data?.data.logs));
-                    console.log(JSON.parse(response.data?.data.logs))
-                }
-            })
-            .catch((error) => {
-                notificationController.error({message: t("dm.errorData")});
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }
-
-    useEffect(() => {
-        retrieveData();
-        // const interval = setInterval(() => {
-        //     retrieveData()
-        // }, 10000)
-        // return () => clearInterval(interval)
-    }, []);
 
     const columns: ColumnsType<BasicTableRow> = [
         {
             title: t('dm.modelImage'),
             dataIndex: 'model_image_base64',
-            render: (model_image_base64) => <Image width={50} src={"data:image/png;base64," + model_image_base64}/>,
+            render: (model_image_base64) => <Image width={100} src={"data:image/png;base64," + model_image_base64}/>,
             width: "10%"
         },
         {
@@ -203,32 +179,10 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigital
             sorter: (a, b) => a.f1_score - b.f1_score,
         },
         {
-            title: t('dm.tp'),
-            dataIndex: 'tp',
-            render: (tp) => <span>{tp}</span>,
+            title: t('dm.confusionMatrix'),
+            dataIndex: 'confusionMatrix',
+            render: (confusionMatrix, record) => <ConfusionMatrix tp={record.tp || 0} tn={record.tn || 0} fp={record.fp || 0} fn={record.fn || 0}/>,
             width: "10%",
-            sorter: (a, b) => a.f1_score - b.f1_score,
-        },
-        {
-            title: t('dm.tn'),
-            dataIndex: 'tn',
-            render: (tn) => <span>{tn}</span>,
-            width: "10%",
-            sorter: (a, b) => a.f1_score - b.f1_score,
-        },
-        {
-            title: t('dm.fp'),
-            dataIndex: 'fp',
-            render: (fp) => <span>{fp}</span>,
-            width: "10%",
-            sorter: (a, b) => a.f1_score - b.f1_score,
-        },
-        {
-            title: t('dm.fn'),
-            dataIndex: 'fn',
-            render: (fn) => <span>{fn}</span>,
-            width: "10%",
-            sorter: (a, b) => a.f1_score - b.f1_score,
         },
         {
             title: t('dm.date'),
@@ -239,24 +193,40 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigital
         },
     ];
 
-    const onChangeRangePicker = (datesObjects, datesStrings) => {
-        setRangeDatetime(datesObjects);
-    }
+    const handleRowClick = (record, index) => {
+        const foundIndex = logsRetraining.findIndex(item => (
+          item["_id"] === record["_id"]
+        ));
+        setEvaluationIndexSelected(foundIndex);
+        showModal();
+    };
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    const handlePrevClick = () => {
+        if (evaluationIndexSelected > 0) {
+            setEvaluationIndexSelected(evaluationIndexSelected - 1);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (evaluationIndexSelected < (logsRetraining?.length-1)) {
+            setEvaluationIndexSelected(evaluationIndexSelected + 1);
+        }
+    };
 
     return (
         <>
-            <Row gutter={[10, 10]}>
-                <Col span={24}>
-                    <Row justify={"end"}>
-                        <Col>
-                            <RangePicker allowClear showTime format={dateFormat} value={rangeDatetime} onChange={onChangeRangePicker}/>
-                        </Col>
-                        <Col>
-                            <Button onClick={retrieveData} block type={"ghost"}>{t("common.search")}</Button>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col span={24}>
                     <Table
                         columns={columns}
                         dataSource={logsRetraining}
@@ -265,10 +235,28 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({idDigital
                         loading={loading}
                         // onChange={handleTableChange}
                         scroll={{x: 800}}
+                        onRow={(record, index) => {
+                            return {
+                                onClick: () => handleRowClick(record, index),
+                            };
+                        }}
                         bordered
                     />
-                </Col>
-            </Row>
+            <Modal open={isModalOpen} centered width={2000} onOk={handleOk} onCancel={handleCancel}>
+                <DigitalModelPreview info={logsRetraining[evaluationIndexSelected]}/>
+                {evaluationIndexSelected > 0 &&
+                <div style={{ position: 'absolute', left: "-10vh", top: "50vh"}}>
+                    <Button onClick={handlePrevClick} block style={{fontSize: "5vh", height: "100%"}}>
+                        {'<'}
+                    </Button>
+                </div>}
+                {evaluationIndexSelected < (logsRetraining?.length-1) &&
+                <div style={{ position: 'absolute', right: "-10vh", top: "50vh"}}>
+                    <Button onClick={handleNextClick} block style={{fontSize: "5vh", height: "100%"}}>
+                        {'>'}
+                    </Button>
+                </div>}
+            </Modal>
         </>
 
     );
