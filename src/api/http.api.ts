@@ -17,9 +17,9 @@ httpApi.interceptors.request.use((config) => {
   return config;
 });
 
-httpBackApi.interceptors.response.use(undefined, (error: AxiosError) => {
-  throw new ApiError<ApiErrorData>(error.response?.data.message || error.message, error.response?.data);
-});
+// httpBackApi.interceptors.response.use(undefined, (error: AxiosError) => {
+//   throw new ApiError<ApiErrorData>(error.response?.data.message || error.message, error.response?.data);
+// });
 
 httpApi.interceptors.response.use(undefined, (error: AxiosError) => {
   throw new ApiError<ApiErrorData>(error.response?.data.message || error.message, error.response?.data);

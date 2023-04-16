@@ -15,9 +15,10 @@ import {
     startDigitalModelApi,
     stopDigitalModelApi
 } from "@app/api/digitalModels/digitalModels.api";
-import {getIpComponent, getParamDataByName, getStatusComponent} from "@app/utils/utilsDigitalModels";
+import { getAccuracy, getIpComponent, getParamDataByName, getStatusComponent } from "@app/utils/utilsDigitalModels";
 import {NewDigitalModelButton} from "@app/components/DigitalModels/List/NewDigitalModelButton";
 import {Link} from "react-router-dom";
+import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
 
 const initialPagination: Pagination = {
     defaultCurrent: 1,
@@ -153,7 +154,19 @@ export const DigitalModelsTable: React.FC = () => {
             title: t('dm.name'),
             dataIndex: 'name',
             render: (text: string, record) => <span><Link to={"/digital-model/" + record?.id}>{text}</Link></span>,
-            width: "30%"
+            width: "10%"
+        },
+        {
+            title: t('dm.metrics'),
+            dataIndex: 'mongo',
+            render: (mongo: string, record) => <div>{mongo?.evaluation_dict ?
+              <RadarMetricsChart
+                height={"10vh"}
+                evaluationsListData={[{
+                ...mongo?.evaluation_dict,
+                model_name: record.name,
+            }]}/> : null}</div>,
+            width: "20%"
         },
         {
             title: t('dm.status'),

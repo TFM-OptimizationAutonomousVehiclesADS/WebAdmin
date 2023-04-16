@@ -115,3 +115,21 @@ export const getCameraNameByCameraValue = (cameraValue: string, t: Record<string
         return t("dm.backCamera");
     }
 }
+
+export const getAccuracy = (tp:number, tn:number, fp:number, fn: number): number => {
+    return (tp+tn) / (tp+fp+tn+fn + Number.EPSILON);
+}
+
+export const getPrecision = (tp:number, tn:number, fp:number, fn: number): number => {
+    return (tp) / (tp+fp + Number.EPSILON);
+}
+
+export const getRecall = (tp:number, tn:number, fp:number, fn: number): number => {
+    return (tp) / (tp+fn + Number.EPSILON);
+}
+
+export const getF1Score = (tp:number, tn:number, fp:number, fn: number): number => {
+    const precision = getRecall(tp, tn, fp, fn);
+    const recall = getRecall(tp, tn, fp, fn);
+    return 2 * ((precision * recall) / (precision + recall + Number.EPSILON))
+}

@@ -14,13 +14,12 @@ import MainLayout from '@app/components/layouts/main/MainLayout/MainLayout';
 import ProfileLayout from '@app/components/profile/ProfileLayout';
 import RequireAuth from '@app/components/router/RequireAuth';
 import { withLoading } from '@app/hocs/withLoading.hoc';
-import NftDashboardPage from '@app/pages/DashboardPages/NftDashboardPage';
-import MedicalDashboardPage from '@app/pages/DashboardPages/MedicalDashboardPage';
 import DigitalModelsListPage from '@app/pages/DigitalModels/DigitalModelsListPage';
 import DigitalModelPage from "@app/pages/DigitalModels/DigitalModelPage";
 import AlertsDashboardPage from "@app/pages/DashboardPages/AlertsDashboardPage";
 import AnomaliesDashboardPage from "@app/pages/DashboardPages/AnomaliesDashboardPage";
 import RetrainingDashboardPage from "@app/pages/DashboardPages/RetrainingDashboardPage";
+import RealSystemPage from "@app/pages/RealSystem/RealSystemPage";
 
 const ServerErrorPage = React.lazy(() => import('@app/pages/ServerErrorPage'));
 const Error404Page = React.lazy(() => import('@app/pages/Error404Page'));
@@ -30,14 +29,14 @@ const NotificationsPage = React.lazy(() => import('@app/pages/NotificationsPage'
 const PaymentsPage = React.lazy(() => import('@app/pages/PaymentsPage'));
 const Logout = React.lazy(() => import('./Logout'));
 
-export const NFT_DASHBOARD_PATH = '/';
-export const MEDICAL_DASHBOARD_PATH = '/medical-dashboard';
+export const INDEX_DASHBOARD_PATH = '/';
+export const ALERTS_DASHBOARD_PATH = '/alerts-dashboard';
+export const ANOMALIES_DASHBOARD_PATH = '/anomalies-dashboard';
+export const RETRAINING_DASHBOARD_PATH = '/retraining-dashboard';
 
-const MedicalDashboard = withLoading(MedicalDashboardPage);
 const RetrainingDashboard = withLoading(RetrainingDashboardPage);
 const AnomaliesDashboard = withLoading(AnomaliesDashboardPage);
 const AlertsDashboard = withLoading(AlertsDashboardPage);
-const NftDashboard = withLoading(NftDashboardPage);
 
 const ServerError = withLoading(ServerErrorPage);
 const Error404 = withLoading(Error404Page);
@@ -71,6 +70,7 @@ export const AppRouter: React.FC = () => {
 
           <Route path={"/digital-models"} element={<DigitalModelsList />} />
           <Route path={"/digital-model/:idDigitalModel"} element={<DigitalModelPage/>} />
+          <Route path={"/real-system"} element={<RealSystemPage/>} />
           <Route path="server-error" element={<ServerError />} />
           <Route path="404" element={<Error404 />} />
           <Route path="profile" element={<ProfileLayout />}>

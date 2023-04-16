@@ -11,6 +11,7 @@ import {
 import { DropzoneCSV } from "@app/components/Dropzone/DropzoneCSV";
 import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
 import { ConfusionMatrix } from "@app/components/ConfusionMatrix/ConfusionMatrix";
+import { getAccuracy } from "@app/utils/utilsDigitalModels";
 
 
 export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel }) => {
@@ -68,8 +69,9 @@ export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel 
               <Row gutter={[10, 10]}>
                 <Col span={12}>
                   <RadarMetricsChart evaluationsListData={[{
+                    ...evaluationDict,
                     model_name: "model",
-                    ...evaluationDict
+                    accuracy: getAccuracy(evaluationDict.tp, evaluationDict.tn, evaluationDict.fp, evaluationDict.fn),
                   }]}/>
                 </Col>
                 <Col span={12}>

@@ -5,7 +5,7 @@ import { themeObject } from '@app/styles/themes/themeVariables';
 import { useAppSelector } from "@app/hooks/reduxHooks";
 
 
-export const RadarMetricsChart: React.FC = ({evaluationsListData}) => {
+export const RadarMetricsChart: React.FC = ({evaluationsListData, height = "20vh"}) => {
   const {t} = useTranslation();
   const theme = useAppSelector((state) => state.theme.theme);
 
@@ -68,6 +68,8 @@ export const RadarMetricsChart: React.FC = ({evaluationsListData}) => {
         // data: getScoreNamesIconsDataList(),
       },
       radar: {
+        radius: "50%",
+        nameGap: 5,
         name: {
           textStyle: {
             color: themeObject[theme].textMain,
@@ -92,5 +94,5 @@ export const RadarMetricsChart: React.FC = ({evaluationsListData}) => {
     return option;
   }
 
-  return <BaseChart option={getDataOption()} height={"20vh"}/>
+  return <BaseChart option={getDataOption()} height={height}/>
 }

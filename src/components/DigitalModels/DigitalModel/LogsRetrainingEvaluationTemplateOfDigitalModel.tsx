@@ -4,48 +4,20 @@ import {
     Modal,
     Row,
     DatePicker,
-    Space,
-    TablePaginationConfig,
-    Tooltip,
     Button,
-    Image,
-    Checkbox,
     Tabs, TabsProps
 } from "antd";
-import {DeleteFilled, StopFilled, CaretRightFilled} from "@ant-design/icons";
-import {BasicTableRow, getBasicTableData, Pagination, Tag} from 'api/table.api';
-import {Table} from 'components/common/Table/Table';
-import {ColumnsType} from 'antd/es/table';
+import {Pagination} from 'api/table.api';
 import {useTranslation} from 'react-i18next';
-import {defineColorByPriority, getLocaleStringDateTime} from '@app/utils/utils';
 import {notificationController} from 'controllers/notificationController';
 import {
-    getLogsRetrainingEvaluationByIdDigitalModelApi, getLogsRetrainingEvaluationByIdDigitalModelApiAndRange
+    getLogsRetrainingEvaluationByIdDigitalModelApiAndRange
 } from "@app/api/digitalModels/digitalModels.api";
-import {
-    getCameraNameByCameraValue,
-    getIpComponent, getMetricTag,
-    getParamDataByName,
-    getStatusComponent
-} from "@app/utils/utilsDigitalModels";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { ConfusionMatrix } from "@app/components/ConfusionMatrix/ConfusionMatrix";
-import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
-import { DigitalModelInfo } from "@app/components/DigitalModels/DigitalModel/DigitalModelInfo";
-import { DigitalModelActualModel } from "@app/components/DigitalModels/DigitalModel/DigitalModelActualModel";
-import {
-    LogsSamplesTableOfDigitalModel
-} from "@app/components/DigitalModels/DigitalModel/LogsSamplesTableOfDigitalModel";
-import {
-    LogsAnomaliesTableOfDigitalModel
-} from "@app/components/DigitalModels/DigitalModel/LogsAnomaliesTableOfDigitalModel";
 import {
     LogsRetrainingEvaluationTableOfDigitalModel
 } from "@app/components/DigitalModels/DigitalModel/LogsRetrainingEvaluationTableOfDigitalModel";
-import {
-    DigitalModelManualPredictionTabs
-} from "@app/components/DigitalModels/DigitalModel/DigitalModelManualPredictionTabs";
 import {
     LogsRetrainingEvaluationPreviewsOfDigitalModel
 } from "@app/components/DigitalModels/DigitalModel/LogsRetrainingEvaluationPreviewsOfDigitalModel";
@@ -61,8 +33,6 @@ const initialPagination: Pagination = {
     defaultCurrent: 1,
     defaultPageSize: 10,
 };
-
-
 
 export const LogsRetrainingEvaluationTemplateOfDigitalModel: React.FC = ({idDigitalModel}) => {
     const [logsRetraining, setLogsRetraining] = useState([]);
