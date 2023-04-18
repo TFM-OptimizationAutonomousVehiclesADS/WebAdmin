@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { BaseChart } from "@app/components/common/charts/BaseChart";
 import { themeObject } from '@app/styles/themes/themeVariables';
 import { useAppSelector } from "@app/hooks/reduxHooks";
+import { getAccuracy, getF1Score, getPrecision, getRecall } from "@app/utils/utilsDigitalModels";
 
 
 export const RadarMetricsChart: React.FC = ({evaluationsListData, height = "20vh"}) => {
@@ -14,10 +15,18 @@ export const RadarMetricsChart: React.FC = ({evaluationsListData, height = "20vh
     if (evaluationsListData) {
       evaluationsListData.forEach((evaluationData) => {
         const nameModel = evaluationData["model_name"];
-        const f1Score = parseFloat(evaluationData["f1_score"]).toFixed(4);
-        const accuracy = parseFloat(evaluationData["accuracy"]).toFixed(4);
-        const precision = parseFloat(evaluationData["precision"]).toFixed(4);
-        const recall = parseFloat(evaluationData["recall"]).toFixed(4);
+        // const f1Score = parseFloat(evaluationData["f1_score"]).toFixed(4);
+        // const accuracy = parseFloat(evaluationData["accuracy"]).toFixed(4);
+        // const precision = parseFloat(evaluationData["precision"]).toFixed(4);
+        // const recall = parseFloat(evaluationData["recall"]).toFixed(4);
+        const tp = evaluationData["tp"]
+        const fp = evaluationData["fp"]
+        const tn = evaluationData["tn"]
+        const fn = evaluationData["fn"]
+        const f1Score = parseFloat(getF1Score(tp, tn, fp, fn).toFixed(4));
+        const accuracy = parseFloat(getAccuracy(tp, tn, fp, fn).toFixed(4));
+        const precision = parseFloat(getPrecision(tp, tn, fp, fn).toFixed(4));
+        const recall = parseFloat(getRecall(tp, tn, fp, fn).toFixed(4));
         let item = {
           type: 'radar',
           areaStyle: {

@@ -11,7 +11,7 @@ import {
 import { DropzoneCSV } from "@app/components/Dropzone/DropzoneCSV";
 import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
 import { ConfusionMatrix } from "@app/components/ConfusionMatrix/ConfusionMatrix";
-import { getAccuracy } from "@app/utils/utilsDigitalModels";
+import { getAccuracy, getF1Score, getPrecision, getRecall } from "@app/utils/utilsDigitalModels";
 
 
 export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel }) => {
@@ -71,7 +71,10 @@ export const DigitalModelManualPredictionMultiple: React.FC = ({ idDigitalModel 
                   <RadarMetricsChart evaluationsListData={[{
                     ...evaluationDict,
                     model_name: "model",
-                    accuracy: getAccuracy(evaluationDict.tp, evaluationDict.tn, evaluationDict.fp, evaluationDict.fn),
+                    // accuracy: getAccuracy(evaluationDict.tp, evaluationDict.tn, evaluationDict.fp, evaluationDict.fn),
+                    // precision: getPrecision(evaluationDict.tp, evaluationDict.tn, evaluationDict.fp, evaluationDict.fn),
+                    // recall: getRecall(evaluationDict.tp, evaluationDict.tn, evaluationDict.fp, evaluationDict.fn),
+                    // f1_score: getF1Score(evaluationDict.tp, evaluationDict.tn, evaluationDict.fp, evaluationDict.fn),
                   }]}/>
                 </Col>
                 <Col span={12}>

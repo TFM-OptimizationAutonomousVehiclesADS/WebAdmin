@@ -8,7 +8,13 @@ import {
   startDigitalModelApi, stopDigitalModelApi
 } from "@app/api/digitalModels/digitalModels.api";
 import { notificationController } from "@app/controllers/notificationController";
-import { getIpComponent, getMetricTag, getParamDataByName, getStatusComponent } from "@app/utils/utilsDigitalModels";
+import {
+  getAccuracy, getF1Score,
+  getIpComponent,
+  getMetricTag,
+  getParamDataByName, getPrecision, getRecall,
+  getStatusComponent
+} from "@app/utils/utilsDigitalModels";
 import { getLocaleStringDateTime } from "@app/utils/utils";
 import { DigitalModelTabs } from "@app/components/DigitalModels/DigitalModel/DigitalModelTabs";
 import { useParams } from "react-router-dom";
@@ -35,22 +41,22 @@ export const DigitalModelPreview: React.FC = ({ info }) => {
                 <Row gutter={[10, 10]}>
                   <Col span={12}>
                     <Card type={"inside"}>
-                      <b>{t("dm.accuracy")}: </b> {getMetricTag(info?.accuracy)}
+                      <b>{t("dm.accuracy")}: </b> {getMetricTag(getAccuracy(info?.tp, info?.tn, info?.fp, info?.fn))}
                     </Card>
                   </Col>
                   <Col span={12}>
                     <Card type={"inside"}>
-                      <b>{t("dm.precision")}: </b> {getMetricTag(info?.precision)}
+                      <b>{t("dm.precision")}: </b> {getMetricTag(getPrecision(info?.tp, info?.tn, info?.fp, info?.fn))}
                     </Card>
                   </Col>
                   <Col span={12}>
                     <Card type={"inside"}>
-                      <b>{t("dm.recall")}: </b> {getMetricTag(info?.recall)}
+                      <b>{t("dm.recall")}: </b> {getMetricTag(getRecall(info?.tp, info?.tn, info?.fp, info?.fn))}
                     </Card>
                   </Col>
                   <Col span={12}>
                     <Card type={"inside"}>
-                      <b>{t("dm.f1-score")}: </b> {getMetricTag(info?.f1_score)}
+                      <b>{t("dm.f1-score")}: </b> {getMetricTag(getF1Score(info?.tp, info?.tn, info?.fp, info?.fn))}
                     </Card>
                   </Col>
                   <Col span={24}>

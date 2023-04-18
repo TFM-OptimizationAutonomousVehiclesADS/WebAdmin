@@ -31,12 +31,15 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
 import { LogSampleResultsPreview } from "@app/components/DigitalModels/DigitalModel/LogSampleResultsPreview";
+import moment from "moment/moment";
 
 dayjs.extend(customParseFormat);
 
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-const startDatetime = dayjs().subtract(1, "day");
-const endDatetime = dayjs();
+// const startDatetime = dayjs().subtract(1, "day");
+// const endDatetime = dayjs();
+const startDatetime = moment().subtract(1, "day");
+const endDatetime = moment();
 const { RangePicker } = DatePicker;
 
 const initialPagination: Pagination = {

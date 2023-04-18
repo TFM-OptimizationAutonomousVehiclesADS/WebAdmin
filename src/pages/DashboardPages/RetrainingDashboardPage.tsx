@@ -10,12 +10,18 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   RetrainingsMetricsOverTimelineChart
 } from "@app/components/Dashboards/Retraining/RetrainingsMetricsOverTimelineChart";
+import moment from "moment";
+import {
+  BarChartBestMetricsComparationChart
+} from "@app/components/Dashboards/Retraining/BarChartBestMetricsComparationChart";
 
 dayjs.extend(customParseFormat);
 
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
-const startDatetime = dayjs().subtract(1, "day");
-const endDatetime = dayjs();
+// const startDatetime = dayjs().subtract(1, "day");
+// const endDatetime = dayjs();
+const startDatetime = moment().subtract(1, "day");
+const endDatetime = moment();
 const { RangePicker } = DatePicker;
 
 const RetrainingDashboardPage: React.FC = () => {
@@ -51,10 +57,16 @@ const RetrainingDashboardPage: React.FC = () => {
         <S.RightSideCol xl={8} xxl={7}>
           <Row gutter={[30, 30]}>
             <Col span={24}>
-                  <RangePicker showTime format={dateFormat} onChange={onChangeRangePicker}/>
+                  <RangePicker showTime format={dateFormat} value={rangeDatetime} onChange={onChangeRangePicker}/>
             </Col>
             <Col span={24}>
-              <RadarMetricsComparationChart/>
+              <RadarMetricsComparationChart height={"30vh"}/>
+            </Col>
+            <Col span={24}>
+              <BarChartBestMetricsComparationChart metricObjective={"f1_score"} height={"30vh"}/>
+            </Col>
+            <Col span={24}>
+              <BarChartBestMetricsComparationChart metricObjective={"accuracy"} height={"30vh"}/>
             </Col>
           </Row>
         </S.RightSideCol>

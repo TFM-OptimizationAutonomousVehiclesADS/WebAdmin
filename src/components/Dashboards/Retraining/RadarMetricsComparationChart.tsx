@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useMounted } from "@app/hooks/useMounted";
 import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
 
-export const RadarMetricsComparationChart: React.FC = () => {
+export const RadarMetricsComparationChart: React.FC = ({height}) => {
   const [digitalModels, setDigitalModes] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const {t} = useTranslation();
@@ -52,7 +52,7 @@ export const RadarMetricsComparationChart: React.FC = () => {
   }
 
   return (
-    <RadarMetricsChart evaluationsListData={getEvaluationsListData()} height={"30vh"}/>
+    <RadarMetricsChart evaluationsListData={getEvaluationsListData()} height={height}/>
   )
 
 }

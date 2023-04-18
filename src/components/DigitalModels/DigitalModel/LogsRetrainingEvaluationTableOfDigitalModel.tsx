@@ -11,9 +11,10 @@ import {
     getLogsRetrainingEvaluationByIdDigitalModelApi, getLogsRetrainingEvaluationByIdDigitalModelApiAndRange
 } from "@app/api/digitalModels/digitalModels.api";
 import {
-    getCameraNameByCameraValue,
+    getAccuracy,
+    getCameraNameByCameraValue, getF1Score,
     getIpComponent, getMetricTag,
-    getParamDataByName,
+    getParamDataByName, getPrecision, getRecall,
     getStatusComponent
 } from "@app/utils/utilsDigitalModels";
 import dayjs from 'dayjs';
@@ -153,30 +154,30 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({logsRetra
         {
             title: t('dm.accuracy'),
             dataIndex: 'accuracy',
-            render: (accuracy) => <span>{getMetricTag(accuracy)}</span>,
+            render: (accuracy, info) => <span>{getMetricTag(getAccuracy(info?.tp, info?.tn, info?.fp, info?.fn))}</span>,
             width: "10%",
-            sorter: (a, b) => a.accuracy - b.accuracy,
+            sorter: (a, b) => getAccuracy(a?.tp, a?.tn, a?.fp, a?.fn) - getAccuracy(b?.tp, b?.tn, b?.fp, b?.fn),
         },
         {
             title: t('dm.precision'),
             dataIndex: 'precision',
-            render: (precision) => <span>{getMetricTag(precision)}</span>,
+            render: (precision, info) => <span>{getMetricTag(getPrecision(info?.tp, info?.tn, info?.fp, info?.fn))}</span>,
             width: "10%",
-            sorter: (a, b) => a.precision - b.precision,
+            sorter: (a, b) => getPrecision(a?.tp, a?.tn, a?.fp, a?.fn) - getPrecision(b?.tp, b?.tn, b?.fp, b?.fn),
         },
         {
             title: t('dm.recall'),
             dataIndex: 'recall',
-            render: (recall) => <span>{getMetricTag(recall)}</span>,
+            render: (recall, info) => <span>{getMetricTag(getRecall(info?.tp, info?.tn, info?.fp, info?.fn))}</span>,
             width: "10%",
-            sorter: (a, b) => a.recall - b.recall,
+            sorter: (a, b) => getRecall(a?.tp, a?.tn, a?.fp, a?.fn) - getRecall(b?.tp, b?.tn, b?.fp, b?.fn),
         },
         {
             title: t('dm.f1-score'),
             dataIndex: 'f1_score',
-            render: (f1_score) => <span>{getMetricTag(f1_score)}</span>,
+            render: (f1_score, info) => <span>{getMetricTag(getF1Score(info?.tp, info?.tn, info?.fp, info?.fn))}</span>,
             width: "10%",
-            sorter: (a, b) => a.f1_score - b.f1_score,
+            sorter: (a, b) => getF1Score(a?.tp, a?.tn, a?.fp, a?.fn) - getF1Score(b?.tp, b?.tn, b?.fp, b?.fn),
         },
         {
             title: t('dm.confusionMatrix'),
