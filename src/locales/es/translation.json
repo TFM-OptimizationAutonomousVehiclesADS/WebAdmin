@@ -83,6 +83,8 @@
     "ip": "IP",
     "actions": "Acciones",
     "newDigitalModel": "Nuevo modelo digital",
+    "shareDataDigitalModels": "Compartir datos",
+    "combineDigitalModels": "Combinar modelos digitales",
     "start": "Iniciar",
     "delete": "Eliminar",
     "stop": "Parar"

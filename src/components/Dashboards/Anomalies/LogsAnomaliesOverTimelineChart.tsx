@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  getAllDigitalModelsApi,
-  getLogsRetrainingEvaluationByIdDigitalModelApiAndRange
+  getAllDigitalModelsApi, getLogsAnomaliesByIdDigitalModelApiAndRange,
+  getLogsRetrainingEvaluationByIdDigitalModelApiAndRange, getLogsSamplesByIdDigitalModelApiAndRange
 } from "@app/api/digitalModels/digitalModels.api";
 import { notificationController } from "@app/controllers/notificationController";
 import { useTranslation } from "react-i18next";
@@ -11,19 +11,21 @@ import { BaseChart } from "@app/components/common/charts/BaseChart";
 import * as trace_events from "trace_events";
 import { themeObject } from "@app/styles/themes/themeVariables";
 import { useAppSelector } from "@app/hooks/reduxHooks";
+import moment from "moment";
+import { getParamDataByName } from "@app/utils/utilsDigitalModels";
 import { Modal } from "antd";
 import { LogSampleResultsPreview } from "@app/components/DigitalModels/DigitalModel/LogSampleResultsPreview";
-import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
 
-export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, metric}) => {
+export const LogsAnomaliesOverTimelineChart: React.FC = ({rangeDatetime}) => {
   const [digitalModels, setDigitalModes] = useState([]);
-  const [digitalModelsRetrainings, setDigitalModelsRetrainings] = useState({});
+  const [digitalModelsLogsSamples, setDigitalModelsLogsSamples] = useState({});
   const [option, setOption] = useState({});
   const [loading, setLoading] = useState<boolean>(true);
   const {t} = useTranslation();
-  const theme = useAppSelector((state) => state.theme.theme);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [retrainingSelected, setRetrainingSelected] = useState(null);
+  const [logSampleSelected, setLogSampleSelected] = useState(null);
+  const [thresholdAnomalySelected, setThresholdAnomalySelected] = useState(0.5);
+  const theme = useAppSelector((state) => state.theme.theme);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -39,7 +41,8 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
 
   const handleDataClickSeries = (params) => {
     console.log(params);
-    setRetrainingSelected(params.data.retrainingInfo)
+    setThresholdAnomalySelected(params.data.thresholdAnomaly)
+    setLogSampleSelected(params.data.logInfo);
     showModal();
   }
 
@@ -65,33 +68,33 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
   }, []);
 
   useEffect(() => {
-    setOption(getOption(digitalModelsRetrainings));
-  }, [digitalModelsRetrainings]);
+    setOption(getOption(digitalModelsLogsSamples));
+  }, [digitalModelsLogsSamples]);
 
   useEffect(() => {
     if (digitalModels) {
-      retrieveAllDataLogsRetraining();
+      retrieveAllDataLogsSamples();
     }
   }, [digitalModels, rangeDatetime]);
 
-  const retrieveAllDataLogsRetraining = async () => {
-    const dictDigitalModelsLogsRetrainings = {};
+  const retrieveAllDataLogsSamples = async () => {
+    const dictDigitalModelsLogsSamples = {};
     const promises = digitalModels.map(async (digital_model) => {
-      // dictDigitalModelsLogsRetrainings[digital_model.id] = {};
-      const logsRetraining = await retrieveDataLogsRetraining(digital_model.id);
-      if (logsRetraining) {
-        dictDigitalModelsLogsRetrainings[digital_model.id] = {logsRetraining: logsRetraining, ...digital_model};
+      // dictDigitalModelsLogsSamples[digital_model.id] = {};
+      const logs = await retrieveDataLogsSamples(digital_model.id);
+      if (logs) {
+        dictDigitalModelsLogsSamples[digital_model.id] = {logs: logs, ...digital_model};
       }
     });
     await Promise.all(promises);
-    setDigitalModelsRetrainings(dictDigitalModelsLogsRetrainings);
+    setDigitalModelsLogsSamples(dictDigitalModelsLogsSamples);
   };
 
-  const retrieveDataLogsRetraining = async (idDigitalModel) => {
+  const retrieveDataLogsSamples = async (idDigitalModel) => {
     try {
-      const response = await getLogsRetrainingEvaluationByIdDigitalModelApiAndRange(idDigitalModel, rangeDatetime)
-      if (response.data?.data?.logs) {
-        return JSON.parse(response.data?.data.logs);
+      const response = await getLogsAnomaliesByIdDigitalModelApiAndRange(idDigitalModel, rangeDatetime)
+      if (response.data?.data?.anomalies) {
+        return JSON.parse(response.data?.data.anomalies);
       }
     } catch (exception) {
       console.error(exception)
@@ -109,16 +112,15 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
     return names;
   }
 
-  const getCategories = (digitalModelsRetrainings) => {
+  const getCategories = (digitalModelsLogsSamples) => {
     const categories = [];
 
-    if (digitalModelsRetrainings) {
+    if (digitalModelsLogsSamples) {
       const categoriesDate = [];
-      Object.values(digitalModelsRetrainings).forEach((digitalModelsRetrainingsOfAnDigitalModel) => {
-        digitalModelsRetrainingsOfAnDigitalModel?.logsRetraining?.forEach((retrainingInfo) => {
-          const timestamp = retrainingInfo?.timestamp * 1000;
-          const date = new Date(timestamp);
-          const datestring = date.toLocaleString();
+      Object.values(digitalModelsLogsSamples).forEach((digitalModelsLogsSamplesOfAnDigitalModel) => {
+        digitalModelsLogsSamplesOfAnDigitalModel?.logs?.forEach((logInfo) => {
+          const timestamp = logInfo?.timestamp;
+          const date = moment(timestamp, 'YYYY-MM-DD HH:mm:ss.SSSSSS').toDate();
           if (!categoriesDate.includes(date)) {
             categoriesDate.push(date);
           }
@@ -128,18 +130,17 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
       categoriesDate.forEach((categoryDate) => {
         categories.push(categoryDate.toLocaleString())
       })
-      // console.log(categories);
     }
     return categories;
   }
 
-  const getSeries = (digitalModelsRetrainings) => {
+  const getSeries = (digitalModelsLogsSamples) => {
     const series = [];
 
-    if (digitalModelsRetrainings) {
-      Object.values(digitalModelsRetrainings).forEach((digitalModelsRetrainingsOfAnDigitalModel) => {
+    if (digitalModelsLogsSamples) {
+      Object.values(digitalModelsLogsSamples).forEach((digitalModelsLogsSamplesOfAnDigitalModel) => {
         const seriesItem = {
-            name: digitalModelsRetrainingsOfAnDigitalModel?.name,
+            name: digitalModelsLogsSamplesOfAnDigitalModel?.name,
             type: 'line',
             data: [],
             smooth: true,
@@ -148,32 +149,32 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
             }
           };
         const dataSeries = [];
-        digitalModelsRetrainingsOfAnDigitalModel?.logsRetraining?.forEach((retrainingInfo) => {
-          const value = retrainingInfo?.[metric];
-          const timestamp = retrainingInfo?.timestamp * 1000;
-          const date = new Date(timestamp);
-          const datestring = date.toLocaleString();
+        digitalModelsLogsSamplesOfAnDigitalModel?.logs?.forEach((logInfo) => {
+          const value = logInfo?.["prediction"];
+          const timestamp = logInfo?.timestamp;
+          const date = moment(timestamp, 'YYYY-MM-DD HH:mm:ss.SSSSSS').toDate();
           dataSeries.push({
-            name: datestring,
+            name: date.toLocaleString(),
             value: [date.toISOString(), value],
-            retrainingInfo: retrainingInfo
+            logInfo: logInfo,
+            thresholdAnomaly: parseFloat(getParamDataByName("DIGITAL_MODEL_THRESHOLD_ANOMALY", digitalModelsLogsSamplesOfAnDigitalModel?.params)) || 0.5
           })
         })
+        dataSeries.sort((a,b) => b.date-a.date);
         seriesItem["data"] = dataSeries;
         series.push(seriesItem);
       })
     }
-    console.log(series);
     return series;
   }
 
-  const getOption = (digitalModelsRetrainings) => {
+  const getOption = (digitalModelsLogsSamples) => {
     const option = {
       textStyle: {
         color: themeObject[theme].textMain
       },
       title: {
-        text: 'Timeline Retraining - ' + metric,
+        text: 'Timeline Anomalies',
         left: 0,
         textStyle: {
           color: themeObject[theme].textMain
@@ -186,7 +187,7 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
         }
       },
       legend: {
-        data: getListNamesModels(digitalModelsRetrainings),
+        data: getListNamesModels(digitalModelsLogsSamples),
         textStyle: {
           color: themeObject[theme].textMain
         }
@@ -198,12 +199,7 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
       },
       xAxis: {
         type: 'time',
-        // data: getCategories(digitalModelsRetrainings),
-        // boundaryGap: false,
-        // axisLine: { onZero: false },
-        // splitLine: { show: false },
-        // min: 'dataMin',
-        // max: 'dataMax'
+        // data: getCategories(digitalModelsLogsSamples),
       },
       yAxis: {
         scale: true,
@@ -225,19 +221,19 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
           end: 100
         }
       ],
-      series: getSeries(digitalModelsRetrainings)
+      series: getSeries(digitalModelsLogsSamples)
     };
     return option;
   }
 
   return (
     <>
-      <BaseChart option={option} height={"30vh"} onEvents={{
-        click: handleDataClickSeries
-      }}/>
-      <Modal open={isModalOpen} centered width={2000} onOk={handleOk} onCancel={handleCancel}>
-        <DigitalModelPreview info={retrainingSelected}/>
-      </Modal>
+    <BaseChart option={option} height={"30vh"} onEvents={{
+      click: handleDataClickSeries
+    }}/>
+  <Modal open={isModalOpen} centered width={2000} onOk={handleOk} onCancel={handleCancel}>
+    <LogSampleResultsPreview logSampleInfo={logSampleSelected} thresholdAnomaly={thresholdAnomalySelected}/>
+  </Modal>
     </>
   )
 

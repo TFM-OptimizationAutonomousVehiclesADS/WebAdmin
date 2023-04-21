@@ -80,6 +80,8 @@
     "ip": "IP",
     "actions": "Actions",
     "newDigitalModel": "New digital model",
+    "shareDataDigitalModels": "Share data",
+    "combineDigitalModels": "Combine digital models",
     "start": "Start",
     "delete": "Delete",
     "stop": "Stop"

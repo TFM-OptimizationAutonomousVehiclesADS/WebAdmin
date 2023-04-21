@@ -206,7 +206,7 @@ export const NewDigitalModelButton: React.FC = () => {
 
     return (
         <>
-            <Button block onClick={showModal}>{t("dm.newDigitalModel")}</Button>
+            <Button style={{background: "darkgreen"}} block onClick={showModal}>{t("dm.newDigitalModel")}</Button>
             <Modal centered width={1000}
                    title={t("dm.newDigitalModel")} open={isModalOpen} onOk={newDigitalModel} onCancel={handleCancel}>
                 <Steps current={currentStep} items={steps}/>

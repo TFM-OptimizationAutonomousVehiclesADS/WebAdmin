@@ -19,6 +19,10 @@ import { getAccuracy, getIpComponent, getParamDataByName, getStatusComponent } f
 import {NewDigitalModelButton} from "@app/components/DigitalModels/List/NewDigitalModelButton";
 import {Link} from "react-router-dom";
 import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
+import {
+    ShareDataBetweenDigitalModelsButton
+} from "@app/components/DigitalModels/List/ShareDataBetweenDigitalModelsButton";
+import { CombinationNewDigitalModelButton } from "@app/components/DigitalModels/List/CombinationNewDigitalModelButton";
 
 const initialPagination: Pagination = {
     defaultCurrent: 1,
@@ -28,6 +32,7 @@ const initialPagination: Pagination = {
 export const DigitalModelsTable: React.FC = () => {
     const [pagination, setPagination] = useState(initialPagination);
     const [digitalModels, setDigitalModes] = useState([]);
+    const [digitalModelsSelected, setDigitalModesSelected] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
     const {t} = useTranslation();
     const {isMounted} = useMounted();
@@ -90,21 +95,6 @@ export const DigitalModelsTable: React.FC = () => {
     const deleteDigitalModel = (idDigitalModel: string) => {
         notificationController.info({message: t("dm.deleting")});
         deleteDigitalModelApi(idDigitalModel)
-            .then((response) => {
-                if (response.data) {
-                    notificationController.success({message: t("dm.successData")});
-                } else {
-                    notificationController.error({message: t("dm.errorData")});
-                }
-            })
-            .catch((error) => {
-                notificationController.error({message: t("dm.errorData")});
-            })
-    }
-
-    const newDigitalModel = () => {
-        notificationController.info({message: t("dm.creating")});
-        newDigitalModelApi()
             .then((response) => {
                 if (response.data) {
                     notificationController.success({message: t("dm.successData")});
@@ -216,17 +206,36 @@ export const DigitalModelsTable: React.FC = () => {
         <>
             <Row gutter={[10, 10]}>
                 <Col span={24}>
-                    <Row justify={"end"}>
-                        <Col span={3}>
+                    <Row gutter={[10,10]}>
+                        {digitalModelsSelected && digitalModelsSelected.length > 0 &&
+                        <Col>
+                            <ShareDataBetweenDigitalModelsButton digitalModels={digitalModelsSelected}/>
+                        </Col>}
+                        {digitalModelsSelected && digitalModelsSelected.length > 0 &&
+                        <Col>
+                            <CombinationNewDigitalModelButton digitalModels={digitalModelsSelected}/>
+                        </Col>}
+                        <Col span={3} style={{marginLeft: "auto", textAlign: "right"}}>
                             <NewDigitalModelButton/>
                         </Col>
                     </Row>
                 </Col>
                 <Col span={24}>
                     <Table
+                      rowSelection={{
+                          type: "checkbox",
+                          onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
+                              console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                              setDigitalModesSelected(selectedRows);
+                          },
+                          getCheckboxProps: (record: any) => ({
+                              disabled: record.status !== 'running',
+                              name: record.name,
+                          }),
+                      }}
                         columns={columns}
                         dataSource={digitalModels}
-                        key={"id"}
+                        rowKey={"id"}
                         // pagination={pagination}
                         loading={loading}
                         // onChange={handleTableChange}
