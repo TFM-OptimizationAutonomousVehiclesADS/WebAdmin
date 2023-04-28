@@ -23,6 +23,7 @@ import {
     ShareDataBetweenDigitalModelsButton
 } from "@app/components/DigitalModels/List/ShareDataBetweenDigitalModelsButton";
 import { CombinationNewDigitalModelButton } from "@app/components/DigitalModels/List/CombinationNewDigitalModelButton";
+import { ReplaceRealSystemModelButton } from "@app/components/DigitalModels/List/ReplaceRealSystemModelButton";
 
 const initialPagination: Pagination = {
     defaultCurrent: 1,
@@ -207,14 +208,18 @@ export const DigitalModelsTable: React.FC = () => {
             <Row gutter={[10, 10]}>
                 <Col span={24}>
                     <Row gutter={[10,10]}>
-                        {digitalModelsSelected && digitalModelsSelected.length > 0 &&
+                        {digitalModelsSelected && digitalModelsSelected.length > 1 &&
                         <Col>
                             <ShareDataBetweenDigitalModelsButton digitalModels={digitalModelsSelected}/>
                         </Col>}
-                        {digitalModelsSelected && digitalModelsSelected.length > 0 &&
+                        {digitalModelsSelected && digitalModelsSelected.length > 1 &&
                         <Col>
                             <CombinationNewDigitalModelButton digitalModels={digitalModelsSelected}/>
                         </Col>}
+                        {digitalModelsSelected && digitalModelsSelected.length == 1 &&
+                          <Col>
+                              <ReplaceRealSystemModelButton digitalModel={digitalModelsSelected[0]}/>
+                          </Col>}
                         <Col span={3} style={{marginLeft: "auto", textAlign: "right"}}>
                             <NewDigitalModelButton/>
                         </Col>

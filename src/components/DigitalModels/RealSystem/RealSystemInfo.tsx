@@ -13,29 +13,32 @@ import { getLocaleStringDateTime } from "@app/utils/utils";
 import { DigitalModelTabs } from "@app/components/DigitalModels/DigitalModel/DigitalModelTabs";
 import { useParams } from "react-router-dom";
 import { CaretRightFilled, DeleteFilled, StopFilled } from "@ant-design/icons";
+import { getRealSystemInfo, startRealSystemApi, stopRealSystemApi } from "@app/api/realSystem/realSystemService";
 
 
 export const RealSystemInfo: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [starting, setStarting] = useState<boolean>(true);
   const [info, setInfo] = useState(null);
   const { t } = useTranslation();
 
   const retrieveData = () => {
-    // getRealSystemApi()
-    //   .then((response) => {
-    //     if (response.data?.real_system) {
-    //       setInfo(response.data?.real_system);
-    //     } else {
-    //       console.log(response);
-    //       // notificationController.error({message: t("dm.errorData")});
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     notificationController.error({ message: t("dm.errorData") });
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    getRealSystemInfo()
+      .then((response) => {
+        if (response.data?.real_system) {
+          setInfo(response.data?.real_system);
+        } else {
+          console.log(response);
+          // notificationController.error({message: t("dm.errorData")});
+        }
+      })
+      .catch((error) => {
+        // notificationController.error({ message: t("dm.errorData") });
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -49,47 +52,36 @@ export const RealSystemInfo: React.FC = () => {
 
   const startRealSystem = () => {
     notificationController.info({ message: t("dm.starting") });
-    // startRealSystemApi()
-    //   .then((response) => {
-    //     if (response.data) {
-    //       notificationController.success({ message: t("dm.successData") });
-    //     } else {
-    //       notificationController.error({ message: t("dm.errorData") });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     notificationController.error({ message: t("dm.errorData") });
-    //   });
+    setStarting(true);
+    startRealSystemApi()
+      .then((response) => {
+        if (response.data) {
+          notificationController.success({ message: t("dm.successData") });
+        } else {
+          notificationController.error({ message: t("dm.errorData") });
+        }
+      })
+      .catch((error) => {
+        notificationController.error({ message: t("dm.errorData") });
+      })
+      .finally(() => {
+        setStarting(false);
+      });
   };
 
   const stopRealSystem = () => {
     notificationController.info({ message: t("dm.stopping") });
-    // stopRealSystemApi()
-    //   .then((response) => {
-    //     if (response.data) {
-    //       notificationController.success({ message: t("dm.successData") });
-    //     } else {
-    //       notificationController.error({ message: t("dm.errorData") });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     notificationController.error({ message: t("dm.errorData") });
-    //   });
-  };
-
-  const deleteRealSystem = () => {
-    notificationController.info({ message: t("dm.deleting") });
-    // deleteRealSystemApi()
-    //   .then((response) => {
-    //     if (response.data) {
-    //       notificationController.success({ message: t("dm.successData") });
-    //     } else {
-    //       notificationController.error({ message: t("dm.errorData") });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     notificationController.error({ message: t("dm.errorData") });
-    //   });
+    stopRealSystemApi()
+      .then((response) => {
+        if (response.data) {
+          notificationController.success({ message: t("dm.successData") });
+        } else {
+          notificationController.error({ message: t("dm.errorData") });
+        }
+      })
+      .catch((error) => {
+        notificationController.error({ message: t("dm.errorData") });
+      });
   };
 
   if (info) {
@@ -154,17 +146,6 @@ export const RealSystemInfo: React.FC = () => {
                                 style={{ background: "green" }}
                                 shape="circle"
                                 icon={<CaretRightFilled />} />
-                      </Tooltip>
-                    </Card>
-                  </Col>}
-                {(info?.status == "stopped" || info?.status == "exited") &&
-                  <Col>
-                    <Card type={"inside"} title={t("dm.delete")}>
-                      <Tooltip title={t("dm.delete")}>
-                        <Button onClick={() => deleteRealSystem()}
-                                style={{ background: "gray" }}
-                                shape="circle"
-                                icon={<DeleteFilled />} />
                       </Tooltip>
                     </Card>
                   </Col>}
@@ -259,7 +240,7 @@ export const RealSystemInfo: React.FC = () => {
   } else {
     return (<>
       <p>No hay ningún sistema real.</p>
-      <Button block type="primary">Iniciar Sistema Real</Button>
+      <Button loading={starting} block type="primary" onClick={() => startRealSystem()}>Iniciar Sistema Real</Button>
     </>)
   }
 };

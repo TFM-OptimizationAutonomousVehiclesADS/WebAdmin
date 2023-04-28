@@ -214,14 +214,14 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
       dataZoom: [
         {
           type: 'inside',
-          start: 50,
+          start: 0,
           end: 100
         },
         {
           show: true,
           type: 'slider',
           top: '90%',
-          start: 50,
+          start: 0,
           end: 100
         }
       ],

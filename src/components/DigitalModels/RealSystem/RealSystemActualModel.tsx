@@ -16,6 +16,7 @@ import { CaretRightFilled, DeleteFilled, StopFilled } from "@ant-design/icons";
 import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
 import { ConfusionMatrix } from "@app/components/ConfusionMatrix/ConfusionMatrix";
 import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
+import { getRealSystemActualModelApi } from "@app/api/realSystem/realSystemService";
 
 
 export const RealSystemActualModel: React.FC = () => {
@@ -24,21 +25,21 @@ export const RealSystemActualModel: React.FC = () => {
   const { t } = useTranslation();
 
   const retrieveData = () => {
-    // getRealSystemActualModelByIdApi()
-    //   .then((response) => {
-    //     if (response.data?.data?.evaluation_dict) {
-    //       setInfo(response.data?.data?.evaluation_dict);
-    //     } else {
-    //       console.log(response)
-    //       // notificationController.error({message: t("dm.errorData")});
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     notificationController.error({ message: t("dm.errorData") });
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    getRealSystemActualModelApi()
+      .then((response) => {
+        if (response.data?.data?.evaluation_dict) {
+          setInfo(response.data?.data?.evaluation_dict);
+        } else {
+          console.log(response)
+          // notificationController.error({message: t("dm.errorData")});
+        }
+      })
+      .catch((error) => {
+        notificationController.error({ message: t("dm.errorData") });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
