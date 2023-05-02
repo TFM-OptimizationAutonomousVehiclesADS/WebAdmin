@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Divider, Row, Card, Checkbox, Tooltip, Button, Image } from "antd";
+import { List, Col, Row, Card, Checkbox, Tooltip, Button, Image } from "antd";
 import { useTranslation } from "react-i18next";
 import {
   deleteDigitalModelApi,
@@ -8,7 +8,13 @@ import {
   startDigitalModelApi, stopDigitalModelApi
 } from "@app/api/digitalModels/digitalModels.api";
 import { notificationController } from "@app/controllers/notificationController";
-import { getIpComponent, getMetricTag, getParamDataByName, getStatusComponent } from "@app/utils/utilsDigitalModels";
+import {
+  getAccuracy, getF1Score,
+  getIpComponent,
+  getMetricTag,
+  getParamDataByName, getPrecision, getRecall,
+  getStatusComponent
+} from "@app/utils/utilsDigitalModels";
 import { getLocaleStringDateTime } from "@app/utils/utils";
 import { DigitalModelTabs } from "@app/components/DigitalModels/DigitalModel/DigitalModelTabs";
 import { useParams } from "react-router-dom";
@@ -16,23 +22,23 @@ import { CaretRightFilled, DeleteFilled, StopFilled } from "@ant-design/icons";
 import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
 import { ConfusionMatrix } from "@app/components/ConfusionMatrix/ConfusionMatrix";
 import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
-import { getRealSystemActualModelApi } from "@app/api/realSystem/realSystemService";
-import { Loading } from "@app/components/common/Loading";
 import {
-  RealSystemLastFederativeListDashboard
-} from "@app/components/Dashboards/Alerts/RealSystemLastFederativeListDashboard";
+  getRealSystemActualModelApi,
+  getRealSystemAllFederativeAlertsApi
+} from "@app/api/realSystem/realSystemService";
+import { Loading } from "@app/components/common/Loading";
 
 
-export const RealSystemActualModel: React.FC = () => {
+export const RealSystemLastFederativeListDashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [info, setInfo] = useState(null);
+  const [lastAlerts, setLastAlerts] = useState([]);
   const { t } = useTranslation();
 
   const retrieveData = () => {
-    getRealSystemActualModelApi()
+    getRealSystemAllFederativeAlertsApi()
       .then((response) => {
-        if (response.data?.data?.evaluation_dict) {
-          setInfo(response.data?.data?.evaluation_dict);
+        if (response.data?.alerts) {
+          setLastAlerts(response.data?.alerts);
         } else {
           console.log(response)
           // notificationController.error({message: t("dm.errorData")});
@@ -48,21 +54,27 @@ export const RealSystemActualModel: React.FC = () => {
 
   useEffect(() => {
     retrieveData();
-    const interval = setInterval(() => {
-      retrieveData()
-    }, 10000)
-    return () => clearInterval(interval)
   }, []);
 
-  if (!info) {
+  if (loading) {
     return <Loading />
   } else {
     return (
-      <>
-        <DigitalModelPreview info={info} />
-        <Divider/>
-        <RealSystemLastFederativeListDashboard/>
-      </>
+      <List
+        bordered
+        dataSource={lastAlerts || []}
+        header={<h3><b>Últimas actualizaciones</b></h3>}
+        rowKey={"timestamp"}
+        pagination={{defaultPageSize: 5}}
+        renderItem={(item) => (
+          <List.Item>
+            <List.Item.Meta
+              title={item["message"]}
+              description={getLocaleStringDateTime(item["timestamp"])}
+            />
+          </List.Item>
+        )}
+      />
     );
   }
 };

@@ -16,6 +16,7 @@ import { CaretRightFilled, DeleteFilled, StopFilled } from "@ant-design/icons";
 import { RadarMetricsChart } from "@app/components/RadarMetricsChart/RadarMetricsChart";
 import { ConfusionMatrix } from "@app/components/ConfusionMatrix/ConfusionMatrix";
 import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
+import { Loading } from "@app/components/common/Loading";
 
 
 export const DigitalModelActualModel: React.FC = ({ idDigitalModel }) => {
@@ -34,7 +35,8 @@ export const DigitalModelActualModel: React.FC = ({ idDigitalModel }) => {
         }
       })
       .catch((error) => {
-        notificationController.error({ message: t("dm.errorData") });
+        // notificationController.error({ message: t("dm.errorData") });
+        console.log(error)
       })
       .finally(() => {
         setLoading(false);
@@ -49,7 +51,11 @@ export const DigitalModelActualModel: React.FC = ({ idDigitalModel }) => {
     return () => clearInterval(interval)
   }, []);
 
-  return (
-    <DigitalModelPreview info={info}/>
-  );
+  if (!info) {
+    return <Loading />
+  } else {
+    return (
+      <DigitalModelPreview info={info} />
+    );
+  }
 };

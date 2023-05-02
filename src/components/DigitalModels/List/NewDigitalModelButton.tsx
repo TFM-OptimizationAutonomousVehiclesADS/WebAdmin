@@ -17,8 +17,8 @@ export const NewDigitalModelButton: React.FC = () => {
     const {t} = useTranslation();
 
     const [containerName, setContainerName] = useState(null);
-    const [sizeImageWidth, setSizeImageWidth] = useState(80);
-    const [sizeImageHeight, setSizeImageHeight] = useState(45);
+    const [sizeImageWidth, setSizeImageWidth] = useState(160);
+    const [sizeImageHeight, setSizeImageHeight] = useState(90);
     const [thresholdAnomaly, setThresholdAnomaly] = useState(0.5);
     const [objectiveMetric, setObjectiveMetric] = useState('f1_score');
     const [testSize, setTestSize] = useState(0.25);

@@ -24,3 +24,7 @@ export const postReplaceModelRealSystem = (digital_model_id: string): Promise<an
     return httpBackApi.post('/real-system/replace-model/' + digital_model_id);
 };
 
+
+export const getRealSystemAllFederativeAlertsApi = (): Promise<any> => {
+    return httpBackApi.get('/alerts/federative/all');
+};

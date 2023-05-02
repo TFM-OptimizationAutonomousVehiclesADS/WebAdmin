@@ -210,6 +210,10 @@ export default createGlobalStyle`
   .ant-table-cell-row-hover {
     background: rgba(81, 54, 131, 0.86) !important;
   }
+  
+  .ant-list-item-meta-description {
+    color: lightgray;
+  }
 
   // notifications end
 `;

@@ -1,3 +1,5 @@
+import { httpBackApi } from "@app/api/http.api";
+
 export interface Message {
   id: number;
   description: string;
@@ -35,3 +37,35 @@ export const notifications = [
     href: `/#latest-screenings`,
   },
 ];
+
+export const converTypeMessageToId = (typeMessage: str): number => {
+  if (typeMessage === "success") {
+    return 1
+  }
+  if (typeMessage === "error") {
+    return 3
+  }
+  return 2;
+}
+
+export const convertAlertsMessagesToNotifications = (alertsMessages: any): Notification[] => {
+  const notifications = [];
+  if (alertsMessages) {
+    alertsMessages.forEach((alertMessage) => {
+      const notification = {
+        id: converTypeMessageToId(alertMessage?.["typeMessage"]),
+        description: alertMessage?.["message"]
+      }
+      notifications.push(notification);
+    })
+  }
+  return notifications;
+}
+
+export const getNotDeliveredAllAlertsMessagesApi = (): Promise<any> => {
+  return httpBackApi.get('/alerts/messages/all');
+};
+
+export const postDeliveredAllAlertsMessagesApi = (): Promise<any> => {
+  return httpBackApi.post('/alerts/delivered/all');
+};
