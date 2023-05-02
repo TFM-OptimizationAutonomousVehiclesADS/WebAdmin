@@ -105,19 +105,19 @@ export const LogsSamplesTableOfDigitalModel: React.FC = ({idDigitalModel, thresh
         {
             title: t('dm.resizedImage'),
             dataIndex: 'image_resized_base64',
-            render: (resizedImage) => <Image width={50} src={"data:image/png;base64," + resizedImage}/>,
+            render: (resizedImage) => <Image preview={false} width={50} src={"data:image/png;base64," + resizedImage}/>,
             width: "10%"
         },
         {
             title: t('dm.objectImage'),
             dataIndex: 'object_resized_base64',
-            render: (objectImage) => <Image width={50} src={"data:image/png;base64," + objectImage}/>,
+            render: (objectImage) => <Image preview={false} width={50} src={"data:image/png;base64," + objectImage}/>,
             width: "10%"
         },
         {
             title: t('dm.surfaceImage'),
             dataIndex: 'surface_resized_base64',
-            render: (surfaceImage) => <Image width={50} src={"data:image/png;base64," + surfaceImage}/>,
+            render: (surfaceImage) => <Image preview={false} width={50} src={"data:image/png;base64," + surfaceImage}/>,
             width: "10%"
         },
         {

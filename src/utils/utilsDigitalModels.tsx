@@ -41,7 +41,6 @@ export const getColorDirectionBySpeed = (speed: number): string => {
 
 export const getIconDirectionByFeatures = (camera: string, rotation: number): React.ReactNode => {
     rotation = parseFloat(rotation);
-    console.log(rotation);
     if (camera === "CAM_FRONT") {
         if (rotation > -0.1 && rotation < 0.1) { // RECTO
             return BsArrowUp;
@@ -108,7 +107,6 @@ export const getParamDataByName = (paramName: string, params: string[]) => {
 }
 
 export const getCameraNameByCameraValue = (cameraValue: string, t: Record<string, unknown>) => {
-    console.log(cameraValue)
     if (cameraValue == "CAM_FRONT") {
         return t("dm.frontCamera");
     } else {
@@ -129,7 +127,7 @@ export const getRecall = (tp:number, tn:number, fp:number, fn: number): number =
 }
 
 export const getF1Score = (tp:number, tn:number, fp:number, fn: number): number => {
-    const precision = getRecall(tp, tn, fp, fn);
+    const precision = getPrecision(tp, tn, fp, fn);
     const recall = getRecall(tp, tn, fp, fn);
     return 2 * ((precision * recall) / (precision + recall + Number.EPSILON))
 }

@@ -8,7 +8,9 @@ export const httpApi = axios.create({
 });
 
 export const httpBackApi = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  // baseURL: process.env.REACT_APP_BASE_URL,
+  // baseURL: "http://192.168.1.133:8080",
+  baseURL: "http://34.175.216.192",
 });
 
 httpApi.interceptors.request.use((config) => {

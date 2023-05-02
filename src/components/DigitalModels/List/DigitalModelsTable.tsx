@@ -230,7 +230,6 @@ export const DigitalModelsTable: React.FC = () => {
                       rowSelection={{
                           type: "checkbox",
                           onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
-                              console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
                               setDigitalModesSelected(selectedRows);
                           },
                           getCheckboxProps: (record: any) => ({

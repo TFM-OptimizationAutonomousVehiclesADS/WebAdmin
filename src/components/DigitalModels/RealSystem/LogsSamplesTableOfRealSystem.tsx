@@ -1,37 +1,26 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import { Col, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image, Modal } from "antd";
+import { Col, Row, DatePicker, Space, TablePaginationConfig, Tooltip, Button, Image, Checkbox, Modal } from "antd";
 import {DeleteFilled, StopFilled, CaretRightFilled} from "@ant-design/icons";
 import {BasicTableRow, getBasicTableData, Pagination, Tag} from 'api/table.api';
 import {Table} from 'components/common/Table/Table';
 import {ColumnsType} from 'antd/es/table';
 import {useTranslation} from 'react-i18next';
-import {defineColorByPriority, getLocaleStringDateTime} from '@app/utils/utils';
+import {getLocaleStringDateTime} from '@app/utils/utils';
 import {notificationController} from 'controllers/notificationController';
-import {Status} from '@app/components/profile/profileCard/profileFormNav/nav/payments/paymentHistory/Status/Status';
-import {useMounted} from '@app/hooks/useMounted';
 import {
-    deleteDigitalModelApi,
-    getAllDigitalModelsApi,
-    getLogsAnomaliesByIdDigitalModelApi,
-    getLogsAnomaliesByIdDigitalModelApiAndRange,
+    getDigitalModelByIdApi,
     getLogsSamplesByIdDigitalModelApi,
-    newDigitalModelApi,
-    startDigitalModelApi,
-    stopDigitalModelApi
+    getLogsSamplesByIdDigitalModelApiAndRange,
+    getLogsSamplesByRealSystemApiAndRange,
+    newDigitalModelApi
 } from "@app/api/digitalModels/digitalModels.api";
 import {
-    getCameraNameByCameraValue,
-    getIpComponent,
-    getParamDataByName, getPredictionTag,
-    getStatusComponent
+    getCameraNameByCameraValue, getParamDataByName, getPredictionTag,
 } from "@app/utils/utilsDigitalModels";
-import {NewDigitalModelButton} from "@app/components/DigitalModels/List/NewDigitalModelButton";
-import {Link} from "react-router-dom";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { DigitalModelPreview } from "@app/components/DigitalModels/DigitalModel/DigitalModelPreview";
 import { LogSampleResultsPreview } from "@app/components/DigitalModels/DigitalModel/LogSampleResultsPreview";
-import moment from "moment/moment";
+import moment from 'moment';
 
 dayjs.extend(customParseFormat);
 
@@ -47,7 +36,7 @@ const initialPagination: Pagination = {
     defaultPageSize: 20,
 };
 
-export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thresholdAnomaly}) => {
+export const LogsSamplesTableOfRealSystem: React.FC = ({thresholdAnomaly}) => {
     const [pagination, setPagination] = useState(initialPagination);
     const [logsSamples, setLogsSamples] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -57,10 +46,10 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
     const {t} = useTranslation();
 
     const retrieveData = () => {
-        getLogsAnomaliesByIdDigitalModelApiAndRange(idDigitalModel, rangeDatetime)
+        getLogsSamplesByRealSystemApiAndRange(rangeDatetime)
             .then((response) => {
-                if (response.data?.data?.anomalies) {
-                    setLogsSamples(JSON.parse(response.data?.data.anomalies));
+                if (response.data?.data?.logs) {
+                    setLogsSamples(JSON.parse(response.data?.data.logs));
                 }
             })
             .catch((error) => {
@@ -73,10 +62,6 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
 
     useEffect(() => {
         retrieveData();
-        // const interval = setInterval(() => {
-        //     retrieveData()
-        // }, 10000)
-        // return () => clearInterval(interval)
     }, []);
 
     const columns: ColumnsType<BasicTableRow> = [
@@ -136,6 +121,19 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
                 <span>{getPredictionTag(parseFloat(prediction).toFixed(2), thresholdAnomaly)}</span>,
             width: "10%",
             sorter: (a, b) => a.prediction - b.prediction,
+        },
+        {
+            title: t('dm.anomaly'),
+            dataIndex: 'prediction',
+            render: (prediction) => <span><Checkbox checked={prediction >= thresholdAnomaly}/></span>,
+            width: "10%",
+            filters: [
+                {
+                    text: 'anomaly',
+                    value: 'anomaly',
+                },
+            ],
+            onFilter: (value, record) => record.prediction >= thresholdAnomaly,
         },
         {
             title: t('dm.date'),

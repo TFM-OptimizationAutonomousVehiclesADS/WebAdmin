@@ -45,7 +45,7 @@ export const LogsRetrainingEvaluationTableOfDigitalModel: React.FC = ({logsRetra
         {
             title: t('dm.modelImage'),
             dataIndex: 'model_image_base64',
-            render: (model_image_base64) => <Image width={100} src={"data:image/png;base64," + model_image_base64}/>,
+            render: (model_image_base64) => <Image preview={false} width={100} src={"data:image/png;base64," + model_image_base64}/>,
             width: "10%"
         },
         {

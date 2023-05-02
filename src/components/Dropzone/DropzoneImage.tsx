@@ -7,7 +7,6 @@ export const DropzoneImage = ({ image, setImage }) => {
     const newImages = acceptedFiles.map(file => Object.assign(file, {
       preview: URL.createObjectURL(file)
     }));
-    console.log(newImages);
     setImage(newImages[newImages.length-1]);
   };
 

@@ -136,7 +136,6 @@ export const LogsSamplesOverTimelineChart: React.FC = ({rangeDatetime}) => {
   }
 
   const handleDataClickSeries = (params) => {
-    console.log(params);
     setThresholdAnomalySelected(params.data.thresholdAnomaly)
     setLogSampleSelected(params.data.logInfo);
     showModal();

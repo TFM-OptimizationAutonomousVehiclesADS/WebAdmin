@@ -13,7 +13,7 @@ import {
     deleteDigitalModelApi,
     getAllDigitalModelsApi,
     getLogsAnomaliesByIdDigitalModelApi,
-    getLogsAnomaliesByIdDigitalModelApiAndRange,
+    getLogsAnomaliesByIdDigitalModelApiAndRange, getLogsAnomaliesByRealSystemApiAndRange,
     getLogsSamplesByIdDigitalModelApi,
     newDigitalModelApi,
     startDigitalModelApi,
@@ -47,7 +47,7 @@ const initialPagination: Pagination = {
     defaultPageSize: 20,
 };
 
-export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thresholdAnomaly}) => {
+export const LogsAnomaliesTableOfRealSystem: React.FC = ({thresholdAnomaly}) => {
     const [pagination, setPagination] = useState(initialPagination);
     const [logsSamples, setLogsSamples] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -57,7 +57,7 @@ export const LogsAnomaliesTableOfDigitalModel: React.FC = ({idDigitalModel, thre
     const {t} = useTranslation();
 
     const retrieveData = () => {
-        getLogsAnomaliesByIdDigitalModelApiAndRange(idDigitalModel, rangeDatetime)
+        getLogsAnomaliesByRealSystemApiAndRange(rangeDatetime)
             .then((response) => {
                 if (response.data?.data?.anomalies) {
                     setLogsSamples(JSON.parse(response.data?.data.anomalies));

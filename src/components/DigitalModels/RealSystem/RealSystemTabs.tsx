@@ -23,6 +23,13 @@ import {
 } from "@app/components/DigitalModels/DigitalModel/LogsRetrainingEvaluationTemplateOfDigitalModel";
 import { RealSystemInfo } from "@app/components/DigitalModels/RealSystem/RealSystemInfo";
 import { RealSystemActualModel } from "@app/components/DigitalModels/RealSystem/RealSystemActualModel";
+import {
+    LogsAnomaliesTableOfRealSystem
+} from "@app/components/DigitalModels/RealSystem/LogsAnomaliesTableOfRealSystem";
+import { LogsSamplesTableOfRealSystem } from "@app/components/DigitalModels/RealSystem/LogsSamplesTableOfRealSystem";
+import {
+    RealSystemManualPredictionTabs
+} from "@app/components/DigitalModels/RealSystem/RealSystemManualPredictionTabs";
 
 export const RealSystemTabs: React.FC = ({info}) => {
     const {t} = useTranslation();
@@ -38,21 +45,21 @@ export const RealSystemTabs: React.FC = ({info}) => {
             label: t("dm.actualModel"),
             children: <RealSystemActualModel />,
         },
-        // {
-        //     key: 'predictionLogs',
-        //     label: t("dm.predictionLogs"),
-        //     children: <LogsSamplesTableOfDigitalModel thresholdAnomaly={parseFloat(getParamDataByName("DIGITAL_MODEL_THRESHOLD_ANOMALY", info?.params)) || 0.5}/>,
-        // },
-        // {
-        //     key: 'anomaliesLogs',
-        //     label: t("dm.anomaliesLogs"),
-        //     children: <LogsAnomaliesTableOfDigitalModel thresholdAnomaly={parseFloat(getParamDataByName("DIGITAL_MODEL_THRESHOLD_ANOMALY", info?.params)) || 0.5}/>,
-        // },
-        // {
-        //     key: 'manualPrediction',
-        //     label: t("dm.manualPrediction"),
-        //     children: <DigitalModelManualPredictionTabs thresholdAnomaly={parseFloat(getParamDataByName("DIGITAL_MODEL_THRESHOLD_ANOMALY", info?.params)) || 0.5}/>,
-        // },
+        {
+            key: 'predictionLogs',
+            label: t("dm.predictionLogs"),
+            children: <LogsSamplesTableOfRealSystem thresholdAnomaly={parseFloat(getParamDataByName("DIGITAL_MODEL_THRESHOLD_ANOMALY", info?.params)) || 0.5}/>,
+        },
+        {
+            key: 'anomaliesLogs',
+            label: t("dm.alerts"),
+            children: <LogsAnomaliesTableOfRealSystem thresholdAnomaly={parseFloat(getParamDataByName("DIGITAL_MODEL_THRESHOLD_ANOMALY", info?.params)) || 0.5}/>,
+        },
+        {
+            key: 'manualPrediction',
+            label: t("dm.manualPrediction"),
+            children: <RealSystemManualPredictionTabs thresholdAnomaly={parseFloat(getParamDataByName("DIGITAL_MODEL_THRESHOLD_ANOMALY", info?.params)) || 0.5}/>,
+        },
     ];
 
     return (

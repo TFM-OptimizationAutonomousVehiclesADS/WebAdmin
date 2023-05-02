@@ -3,6 +3,14 @@
     "real-system": "Sistema real"
   },
   "dm": {
+    "combinated": "Fusión de Redes Neuronales",
+    "typeCombinedModel": "Tipo de combinado",
+    "resultBy": "Resultado por",
+    "alerts": "Alertas",
+    "modelDigitalname": "Nombre modelo digital",
+    "combineModelsQuestionModal": "¿Deseas crear un modelo combinando los modelos de los siguientes modelos seleccionados?",
+    "shareDataQuestionModal": "¿Deseas compartir las base de datos de anomalías detectadas entre los siguientes modelos seleccionados?",
+    "replaceRealSystem": "Reemplazar modelo en Sistema Real",
     "good": "Bien",
     "bad": "Mal",
     "direction": "Dirección",

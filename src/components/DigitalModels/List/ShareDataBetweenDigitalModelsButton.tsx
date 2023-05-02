@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Button, Modal, Steps, message, Form, Input, Row, Col, Select, Checkbox} from 'antd';
+import { Button, Modal, Steps, message, Form, Input, Row, Col, Select, Checkbox, List } from "antd";
 import {notificationController} from 'controllers/notificationController';
 import {
-    newDigitalModelApi,
+  newDigitalModelApi, shareDataBetweenDigitalModelsApi
 } from "@app/api/digitalModels/digitalModels.api";
 import {useTranslation} from "react-i18next";
 import {useAppSelector} from "@app/hooks/reduxHooks";
@@ -26,7 +26,19 @@ export const ShareDataBetweenDigitalModelsButton: React.FC = ({digitalModels}) =
 
     const shareDataBetweenDigitalModelsClick = () => {
         notificationController.info({message: t("dm.creating")});
-        handleCancel();
+        const idsDigitalModelsSelected = digitalModels?.map((dm) => dm["id"]);
+        shareDataBetweenDigitalModelsApi(idsDigitalModelsSelected)
+          .then((response) => {
+              if (response.data) {
+                  notificationController.success({message: t("dm.successData")});
+              } else {
+                  notificationController.error({message: t("dm.errorData")});
+              }
+          })
+          .catch((error) => {
+              notificationController.error({message: t("dm.errorData")});
+          })
+        setIsModalOpen(false);
     }
 
     return (
@@ -34,7 +46,19 @@ export const ShareDataBetweenDigitalModelsButton: React.FC = ({digitalModels}) =
             <Button style={{background: "darkcyan"}} block onClick={showModal}>{t("dm.shareDataDigitalModels")}</Button>
             <Modal centered width={1000}
                    title={t("dm.shareDataDigitalModels")} open={isModalOpen} onOk={shareDataBetweenDigitalModelsClick} onCancel={handleCancel}>
+                <>
+                    {t("dm.shareDataQuestionModal")}
 
+                    <List
+                      bordered
+                      dataSource={digitalModels || []}
+                      renderItem={(item) => (
+                        <List.Item>
+                          {item.name}
+                        </List.Item>
+                      )}
+                    />
+                </>
             </Modal>
         </>
 

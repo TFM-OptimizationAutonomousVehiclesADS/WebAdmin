@@ -5,13 +5,13 @@ import { DropzoneImage } from "@app/components/Dropzone/DropzoneImage";
 import { NumericInput } from "@app/components/DigitalModels/List/NumericInput";
 import { notificationController } from "@app/controllers/notificationController";
 import {
-  predictSampleDigitalModelSingleApi
+  predictSampleDigitalModelSingleApi, predictSampleRealSystemSingleApi
 } from "@app/api/digitalModels/digitalModels.api";
 import { getColorDirectionBySpeed, getIconDirectionByFeatures, getPredictionTag } from "@app/utils/utilsDigitalModels";
 import Icon, {UpCircleOutlined, DownCircleOutlined} from "@ant-design/icons";
 
 
-export const DigitalModelManualPredictionSingle: React.FC = ({ idDigitalModel, thresholdAnomaly }) => {
+export const RealSystemManualPredictionSingle: React.FC = ({ thresholdAnomaly }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [resizedImage, setResizedImage] = useState(null);
   const [objectImage, setObjectImage] = useState(null);
@@ -36,7 +36,7 @@ export const DigitalModelManualPredictionSingle: React.FC = ({ idDigitalModel, t
     formData.append("rotation_rate_z", rotation);
     formData.append("channel_camera", camera);
 
-    predictSampleDigitalModelSingleApi(idDigitalModel, formData)
+    predictSampleRealSystemSingleApi(formData)
       .then((response) => {
         if (response.data) {
           notificationController.success({ message: t("dm.successData") });

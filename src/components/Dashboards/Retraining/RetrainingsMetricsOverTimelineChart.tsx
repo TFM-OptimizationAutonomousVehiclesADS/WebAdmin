@@ -38,7 +38,6 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
   };
 
   const handleDataClickSeries = (params) => {
-    console.log(params);
     setRetrainingSelected(params.data.retrainingInfo)
     showModal();
   }
@@ -163,7 +162,6 @@ export const RetrainingsMetricsOverTimelineChart: React.FC = ({rangeDatetime, me
         series.push(seriesItem);
       })
     }
-    console.log(series);
     return series;
   }
 

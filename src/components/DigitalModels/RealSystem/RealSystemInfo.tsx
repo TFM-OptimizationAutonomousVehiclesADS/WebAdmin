@@ -14,11 +14,12 @@ import { DigitalModelTabs } from "@app/components/DigitalModels/DigitalModel/Dig
 import { useParams } from "react-router-dom";
 import { CaretRightFilled, DeleteFilled, StopFilled } from "@ant-design/icons";
 import { getRealSystemInfo, startRealSystemApi, stopRealSystemApi } from "@app/api/realSystem/realSystemService";
+import { Loading } from "@app/components/common/Loading";
 
 
 export const RealSystemInfo: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [starting, setStarting] = useState<boolean>(true);
+  const [starting, setStarting] = useState<boolean>(false);
   const [info, setInfo] = useState(null);
   const { t } = useTranslation();
 
@@ -84,7 +85,9 @@ export const RealSystemInfo: React.FC = () => {
       });
   };
 
-  if (info) {
+  if (loading) {
+    return <Loading />
+  } else if (info) {
     return (
       <>
         <Row gutter={[30, 30]} style={{height: "100%"}}>
