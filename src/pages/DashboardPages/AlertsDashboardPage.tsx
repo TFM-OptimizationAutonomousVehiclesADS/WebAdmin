@@ -36,13 +36,14 @@ import { RealSystemActualModelDashboard } from "@app/components/Dashboards/Alert
 import {
   RealSystemLastFederativeListDashboard
 } from "@app/components/Dashboards/Alerts/RealSystemLastFederativeListDashboard";
+import { HealthIndicatorRealSystem } from "@app/components/Dashboards/Alerts/HealthIndicatorRealSystem";
 
 dayjs.extend(customParseFormat);
 
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 // const startDatetime = dayjs().subtract(1, "day");
 // const endDatetime = dayjs();
-const startDatetime = moment().subtract(1, "day");
+const startDatetime = moment().subtract(8, "hour");
 const endDatetime = moment();
 const { RangePicker } = DatePicker;
 
@@ -60,14 +61,8 @@ const AlertsDashboardPage: React.FC = () => {
       <Row>
         <S.LeftSideCol xl={16} xxl={17}>
           <Row gutter={[30, 30]}>
-            <Col span={8}>
-              TOTAL PREDICCIONES + ultimas horas
-            </Col>
-            <Col span={8}>
-              TOTAL ANOMALIAS + ultimas horas
-            </Col>
-            <Col span={8}>
-              INDICADOR DE SALUD
+            <Col span={24}>
+              <HealthIndicatorRealSystem rangeDatetime={rangeDatetime}/>
             </Col>
             <Col span={24}>
               <LogsSamplesOverTimelineChartRealSystem rangeDatetime={rangeDatetime} />

@@ -28,7 +28,7 @@ dayjs.extend(customParseFormat);
 const dateFormat = 'DD/MM/YYYY HH:mm:ss';
 // const startDatetime = dayjs().subtract(1, "day");
 // const endDatetime = dayjs();
-const startDatetime = moment().subtract(1, "day");
+const startDatetime = moment().subtract(8, "hour");
 const endDatetime = moment();
 const { RangePicker } = DatePicker;
 
