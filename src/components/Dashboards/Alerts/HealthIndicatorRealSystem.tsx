@@ -127,7 +127,7 @@ export const HealthIndicatorRealSystem: React.FC = ({rangeDatetime}) => {
         </Card>
       </Col>
       <Col span={12}>
-        <Card title={"Nº Predicciones"} bodyStyle={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <Card title={"Nº Alertas"} bodyStyle={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
           <span style={{fontSize: "5vh", color: "indianred"}}>
             {totalLogsAnomalies}
           </span>
@@ -138,7 +138,7 @@ export const HealthIndicatorRealSystem: React.FC = ({rangeDatetime}) => {
         </Card>
       </Col>
       <Col span={24}>
-          <HealthIndicatorRealSystemChart height={"22vh"} totalLogsAnomalies={totalLogsAnomalies} totalLogsSamples={totalLogsSamples}/>
+          <HealthIndicatorRealSystemChart height={"22vh"} loading={loading} totalLogsAnomalies={totalLogsAnomalies} totalLogsSamples={totalLogsSamples}/>
       </Col>
     </Row>
   )

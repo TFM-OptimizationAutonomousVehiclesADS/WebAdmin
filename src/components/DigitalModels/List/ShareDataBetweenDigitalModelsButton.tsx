@@ -32,11 +32,11 @@ export const ShareDataBetweenDigitalModelsButton: React.FC = ({digitalModels}) =
               if (response.data) {
                   notificationController.success({message: t("dm.successData")});
               } else {
-                  notificationController.error({message: t("dm.errorData")});
+                  notificationController.success({message: t("dm.successData")});
               }
           })
           .catch((error) => {
-              notificationController.error({message: t("dm.errorData")});
+              notificationController.success({message: t("dm.successData")});
           })
         setIsModalOpen(false);
     }

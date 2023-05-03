@@ -95,7 +95,7 @@ export const PieChartTotalPredictionsComparation: React.FC = ({height, rangeDate
         color: themeObject[theme].textMain
       },
       title: {
-        text: 'Total anomalies by digital model',
+        text: 'Total predicciones por modelo digital',
         left: 0,
         textStyle: {
           color: themeObject[theme].textMain

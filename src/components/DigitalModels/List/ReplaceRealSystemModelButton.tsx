@@ -29,7 +29,7 @@ export const ReplaceRealSystemModelButton: React.FC = ({digitalModel}) => {
         notificationController.info({message: t("dm.replacing")});
         postReplaceModelRealSystem(digitalModel["id"])
           .then((response) => {
-              if (response.success) {
+              if (response.data?.success) {
                   notificationController.success({message: t("dm.successData")});
               } else {
                   notificationController.error({message: t("dm.errorData")});

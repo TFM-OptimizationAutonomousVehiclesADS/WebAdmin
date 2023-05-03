@@ -126,6 +126,9 @@ export const BarChartBestMetricsComparationChart: React.FC = ({metricObjective, 
         max: 2, // only the largest 3 bars will be displayed
         inverse: true,
       },
+      grid: {
+        left: 150,
+      },
       colorBy: "data",
       series: [{
         type: 'bar',
