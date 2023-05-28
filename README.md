@@ -6,7 +6,8 @@
 - [git](https://git-scm.com/)
 
 ```
-git clone https://github.com/altence/lightence-admin.git my-awesome-project && cd my-awesome-project
+git clone https://github.com/TFM-OptimizationAutonomousVehiclesADS/WebAdmin.git 
+cd WebAdmin
 ```
 
 Development mode
